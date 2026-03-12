@@ -1,0 +1,60 @@
+<!-- pages/index/bikeInfo/bikeInfo.wxml -->
+<view class="container">
+  <view wx:if="{{loading}}" class="state">加载中...</view>
+  <view wx:elif="{{loadError}}" class="state">{{loadError}}</view>
+
+  <view wx:else class="content">
+    <swiper indicator-dots="true" autoplay="false" interval="5000" duration="500" class="hero-swiper">
+      <swiper-item>
+        <image src="{{bikeInfo.picUrl}}" class="hero-img" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
+
+    <view class="info-card">
+      <text class="vehicle-name">{{bikeInfo.vehicleName}}</text>
+      <text class="vehicle-price">{{bikeInfo.priceText}}</text>
+      <view class="tag-container">
+        <view class="tag">{{bikeInfo.vehicleType}}</view>
+        <view class="tag">{{bikeInfo.vehicleBrand}}</view>
+        <view class="tag status-tag">{{bikeInfo.statusText}}</view>
+        <view class="tag">{{bikeInfo.region || '附近网点'}}</view>
+      </view>
+    </view>
+
+    <view class="info-card">
+      <text class="section-title">车辆参数</text>
+      <view class="battery-container">
+        <text class="battery-label">电池电量</text>
+        <view class="battery-bar-container">
+          <view
+            class="battery-bar"
+            style="width: {{bikeInfo.batteryLevel}}%; background-color: {{bikeInfo.batteryLevel > 70 ? '#67C23A' : (bikeInfo.batteryLevel > 30 ? '#E6A23C' : '#F56C6C')}};"
+          ></view>
+        </view>
+        <text class="battery-percentage">{{bikeInfo.batteryLevel}}%</text>
+      </view>
+      <view class="tag-container">
+        <view class="tag">电池状态：{{bikeInfo.batteryStatus}}</view>
+        <view class="tag">充电类型：{{bikeInfo.chargeType}}</view>
+        <view class="tag">续航里程：{{bikeInfo.mileage}}km</view>
+      </view>
+    </view>
+
+    <view class="info-card">
+      <text class="section-title">车辆描述</text>
+      <text class="description">{{bikeInfo.description}}</text>
+    </view>
+
+    <view class="info-card">
+      <text class="section-title">车辆位置</text>
+      <view class="location-container">
+        <text class="location-text">{{bikeInfo.address}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="button-group">
+    <button class="secondary-button" bindtap="collectBike">{{isCollected ? '已收藏' : '收藏'}}</button>
+    <button class="primary-button" bindtap="rentBike">立即租赁</button>
+  </view>
+</view>

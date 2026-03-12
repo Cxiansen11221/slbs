@@ -1,0 +1,114 @@
+:root {
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  color: #333333;
+  --blue-100: #f5faff;
+  --blue-200: #bfd8e8;
+  --blue-300: #a4c8e0;
+  --beige-100: #f9f7f5;
+  --text-strong: #333333;
+  --text-muted: #999999;
+  --shadow-soft: 0 2px 8px rgba(189, 216, 232, 0.2);
+  --radius-md: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: var(--blue-100);
+  color: var(--text-strong);
+}
+
+#app {
+  background: var(--blue-100);
+}
+
+/* Element Plus subtle blue theme overrides */
+:root .el-button {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
+}
+
+:root .el-button:active {
+  transform: scale(0.98);
+}
+
+:root .el-button--primary {
+  background: var(--blue-200);
+  border-color: var(--blue-200);
+  color: #1f2a33;
+}
+
+:root .el-button--primary:hover {
+  background: var(--blue-300);
+  border-color: var(--blue-300);
+}
+
+:root .el-input__inner,
+:root .el-textarea__inner {
+  border-radius: var(--radius-md);
+  border-color: #d7e6f2;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+  color: var(--text-strong);
+}
+
+:root .el-input__inner::placeholder,
+:root .el-textarea__inner::placeholder {
+  color: var(--text-muted);
+}
+
+:root .el-card {
+  border-radius: 12px;
+  border-color: #e1eef7;
+  box-shadow: var(--shadow-soft);
+}
+
+:root .el-table {
+  --el-table-border-color: #e1eef7;
+  --el-table-header-bg-color: #f7fbff;
+  --el-table-row-hover-bg-color: #f2f8fd;
+}
+
+:root .el-tag {
+  border-radius: 10px;
+}
+
+:root .el-tag--success {
+  background: #ecf7ee;
+  border-color: #d3efdb;
+  color: #3a7c4d;
+}
+
+:root .el-tag--warning {
+  background: #fff4e6;
+  border-color: #fde2b8;
+  color: #b36b00;
+}
+
+:root .el-tag--info {
+  background: #f2f4f7;
+  border-color: #e5e9f0;
+  color: #6b7280;
+}
+
+:root .el-menu {
+  background: #f9fbfe;
+  color: var(--text-strong);
+}
+
+:root .el-menu-item.is-active {
+  background: #e8f2fa;
+  color: #2d4a5b;
+  border-radius: 8px;
+}

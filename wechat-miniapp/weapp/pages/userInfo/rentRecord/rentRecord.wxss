@@ -1,0 +1,134 @@
+/* pages/userInfo/rentRecord/rentRecord.wxss */
+page {
+  background: #f3f4f6;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 16rpx 18rpx 24rpx;
+}
+
+.statePanel {
+  margin-top: 120rpx;
+  text-align: center;
+  color: #6b7280;
+  font-size: 28rpx;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.orderCard {
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 18rpx;
+  box-shadow: 0 6rpx 16rpx rgba(15, 23, 42, 0.06);
+}
+
+.orderCard.focus {
+  border: 2rpx solid #fb923c;
+  box-shadow: 0 8rpx 20rpx rgba(251, 146, 60, 0.22);
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.orderCode {
+  color: #0f172a;
+  font-size: 24rpx;
+  font-weight: 600;
+  max-width: 480rpx;
+}
+
+.status {
+  color: #2563eb;
+  font-size: 23rpx;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 52rpx;
+}
+
+.label {
+  color: #6b7280;
+  font-size: 24rpx;
+}
+
+.value {
+  color: #1f2937;
+  font-size: 24rpx;
+}
+
+.amount {
+  color: #ef4444;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.actionRow {
+  margin-top: 14rpx;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12rpx;
+}
+
+.payBtn {
+  margin: 0;
+  width: 180rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  border-radius: 999rpx;
+  background: #2563eb;
+  border: 1rpx solid #2563eb;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 0;
+}
+
+.payBtn::after {
+  border: 0;
+}
+
+.cancelBtn {
+  margin: 0;
+  width: 180rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  border: 1rpx solid #fca5a5;
+  color: #ef4444;
+  font-size: 24rpx;
+  padding: 0;
+}
+
+.cancelBtn::after {
+  border: 0;
+}
+
+.deleteBtn {
+  margin: 0;
+  width: 180rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  border: 1rpx solid #fda4af;
+  color: #e11d48;
+  font-size: 24rpx;
+  padding: 0;
+}
+
+.deleteBtn::after {
+  border: 0;
+}

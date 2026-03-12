@@ -1,0 +1,87 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<view class="container">
+  <view class="notice-wrap">
+    <view class="section-head">
+    </view>
+    <swiper
+      class="notice-swiper"
+      autoplay="{{noticeList.length > 1}}"
+      interval="3000"
+      duration="500"
+      circular="true"
+      vertical="true"
+      current="{{noticeCurrent}}"
+      bindchange="onNoticeChange"
+      indicator-dots="{{noticeList.length > 1}}"
+      indicator-color="rgba(255,255,255,0.4)"
+      indicator-active-color="#ffffff"
+    >
+      <swiper-item wx:for="{{noticeList}}" wx:key="title" data-title="{{item.title}}" bindtap="tapNotice">
+        <view class="notice-card">
+          <view class="notice-main">
+            <view class="notice-title">{{item.title}}</view>
+            <view class="notice-desc">{{item.desc}}</view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="{{uiText.searchPlaceholder}}"
+      value="{{keyword}}"
+      bindinput="onKeywordInput"
+      confirm-type="search"
+      bindconfirm="onSearch"
+    />
+    <button class="search-btn" bindtap="onSearch">{{uiText.searchBtn}}</button>
+  </view>
+
+  <view class="nearby-wrap">
+    <view class="section-head">
+      <text class="section-title">{{uiText.nearbyTitle}}</text>
+      <text class="section-sub">{{uiText.nearbySub}}</text>
+    </view>
+
+    <block wx:if="{{electricVehicleList.length}}">
+      <view class="vehicle-card" wx:for="{{electricVehicleList}}" wx:key="vehicleId" bindtap="toBikeInfo" data-id="{{item.vehicleId}}">
+        <view class="vehicle-top">
+          <text class="vehicle-title">{{item.brand}} {{item.model}}</text>
+          <text class="status {{item.statusClass}}">{{item.statusText}}</text>
+        </view>
+        <view class="vehicle-meta">{{uiText.vehicleNumberLabel}}：{{item.vehicleNumber || '-'}}</view>
+        <view class="vehicle-grid">
+          <view class="meta-item">
+            <text class="meta-label">{{uiText.batteryLabel}}</text>
+            <text class="meta-value">{{item.batteryLevel}}%</text>
+          </view>
+          <view class="meta-item">
+            <text class="meta-label">{{uiText.rentLabel}}</text>
+            <text class="meta-value price">{{item.rentText}}</text>
+          </view>
+          <view class="meta-item">
+            <text class="meta-label">{{uiText.typeLabel}}</text>
+            <text class="meta-value">{{item.vehicleTypeText}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{loading}}" class="loading">{{uiText.loading}}</view>
+      <view wx:if="{{!hasMore}}" class="loading">{{uiText.noMore}}</view>
+    </block>
+    <view wx:elif="{{loadError}}" class="empty">{{loadError}}</view>
+    <view wx:else class="empty">{{uiText.empty}}</view>
+  </view>
+
+  <view class="extra-wrap">
+    <view class="section-head">
+      <text class="section-title">{{uiText.recommendTitle}}</text>
+    </view>
+    <view class="extra-grid">
+      <view class="extra-card" wx:for="{{recommendCards}}" wx:key="title" bindtap="tapRecommend" data-index="{{index}}">
+        <view class="extra-title">{{item.title}}</view>
+        <view class="extra-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+</view>

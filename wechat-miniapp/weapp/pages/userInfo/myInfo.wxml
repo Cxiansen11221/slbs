@@ -1,0 +1,81 @@
+<!-- pages/userInfo/myInfo.wxml -->
+<view class="myPage">
+  <view class="user-card">
+    <view class="card-header">
+      <view class="infoPic">
+        <image wx:if="{{!user.displayHeadUrl}}" src="{{baseHeadPic}}" class="headPic" binderror="onHeadPicError"></image>
+        <image wx:if="{{user.displayHeadUrl}}" src="{{user.displayHeadUrl}}" class="headPic" binderror="onHeadPicError"></image>
+      </view>
+      <view class="user-details">
+        <view class="name-section">
+          <view class="userName" wx:if="{{user.name}}">{{user.name}}</view>
+          <view class="gender">
+            <i-avatar wx:if="{{user.sex=='0'}}" src="../../images/icons/common/gender-male.png"></i-avatar>
+            <i-avatar wx:if="{{user.sex=='1'}}" src="../../images/icons/common/gender-female.png"></i-avatar>
+          </view>
+        </view>
+        <view class="btnAround" wx:if="{{!user.name}}">
+          <button class="wechat-auth-btn" open-type="getPhoneNumber" bindgetphonenumber="handleLogin">{{i18n.wechatLogin}}</button>
+        </view>
+        <view class="userRole" wx:if="{{user.roleStr}}">
+          <i-tag i-class="i-tags" color="green" type="dot">{{user.roleStr}}</i-tag>
+        </view>
+      </view>
+      <view class="header-edit" bindtap="toChangeInfo" wx:if="{{user.id}}">
+        <i-icon type="editor" size="14" color="#fff" />
+        <text>{{i18n.editProfile}}</text>
+      </view>
+    </view>
+
+    <view class="card-stats">
+      <view class="stat-item" bindtap="toVisited">
+        <view class="count">{{count.visited}}</view>
+        <view class="title">{{i18n.viewed}}</view>
+      </view>
+      <view class="stat-item" bindtap="toCollection">
+        <view class="count">{{count.collection}}</view>
+        <view class="title">{{i18n.collection}}</view>
+      </view>
+      <view class="stat-item" bindtap="toRentRecord">
+        <view class="count">{{count.myRent}}</view>
+        <view class="title">{{i18n.orders}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="funList">
+    <view class="grid-container">
+      <view class="grid-item" bindtap="toRentRecord">
+        <view class="grid-icon"><i-icon type="time" size="32" color="#007AFF" /></view>
+        <text class="grid-label">{{i18n.orders}}</text>
+      </view>
+      <view class="grid-item" bindtap="toCollection">
+        <view class="grid-icon"><i-icon type="collection" size="32" color="#007AFF" /></view>
+        <text class="grid-label">{{i18n.collection}}</text>
+      </view>
+      <view class="grid-item" bindtap="toVisited">
+        <view class="grid-icon"><i-icon type="browse" size="32" color="#007AFF" /></view>
+        <text class="grid-label">{{i18n.viewed}}</text>
+      </view>
+      <view class="grid-item" bindtap="toMessage">
+        <view class="grid-icon"><i-icon type="message" size="32" color="#007AFF" /></view>
+        <text class="grid-label">{{i18n.message}}</text>
+      </view>
+      <view class="grid-item">
+        <view class="grid-icon"><i-icon type="setup" size="32" color="#007AFF" /></view>
+        <text class="grid-label">{{i18n.setting}}</text>
+      </view>
+      <view class="grid-item">
+        <view class="grid-icon"><i-icon type="prompt" size="32" color="#007AFF" /></view>
+        <text class="grid-label">{{i18n.help}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="funBtn">
+    <button class="wechat-login-btn" open-type="getPhoneNumber" bindgetphonenumber="handleLogin" wx:if="{{!user.id}}">{{i18n.wechatLogin}}</button>
+    <button class="switch-login-btn" bindtap="changeLogin" wx:if="{{!user.id}}">{{i18n.otherLogin}}</button>
+    <button class="switch-login-btn" bindtap="changeLogin" wx:if="{{user.id}}">{{i18n.switchAccount}}</button>
+    <button class="logout-btn" bindtap="logout" wx:if="{{user.id}}">{{i18n.logout}}</button>
+  </view>
+</view>

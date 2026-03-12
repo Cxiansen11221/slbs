@@ -1,0 +1,452 @@
+page {
+  background: linear-gradient(180deg, #f2f6ff 0%, #eef3fb 45%, #f5f7fb 100%);
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 8rpx 10rpx calc(108rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+/* 通用部分标题样式 */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: 'PingFang SC Medium';
+}
+
+.section-more {
+  color: #2563eb;
+  font-size: 24rpx;
+  font-family: 'PingFang SC Regular';
+  transition: all 0.3s ease;
+}
+
+.section-more:active {
+  color: #1d4ed8;
+  transform: scale(0.98);
+}
+
+.section-sub {
+  color: #94a3b8;
+  font-size: 22rpx;
+  font-family: 'PingFang SC Regular';
+}
+
+/* 公告区域 */
+.notice-wrap {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18rpx;
+}
+
+.notice-swiper {
+  height: 160rpx;
+  background: linear-gradient(135deg, #2f88ff 0%, #1b6fde 100%);
+  border-radius: 18rpx;
+  box-shadow: 0 8rpx 26rpx rgba(34, 107, 224, 0.26);
+  border: none;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+}
+
+.notice-card {
+  display: flex;
+  align-items: center;
+  padding: 52rpx 20rpx 20rpx;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.notice-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.notice-title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+  text-shadow: 0 2rpx 8rpx rgba(4, 38, 92, 0.24);
+  font-family: 'PingFang SC Medium';
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notice-desc {
+  font-size: 26rpx;
+  color: rgba(242, 248, 255, 0.92);
+  line-height: 1.5;
+  text-shadow: 0 1rpx 4rpx rgba(4, 38, 92, 0.22);
+  font-family: 'PingFang SC Regular';
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notice-wrap .section-head {
+  position: absolute;
+  top: 16rpx;
+  left: 12rpx;
+  right: 12rpx;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+.notice-wrap .section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+  font-family: 'PingFang SC Medium';
+}
+
+.notice-wrap .section-more {
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 24rpx;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.16);
+  font-family: 'PingFang SC Regular';
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  width: 100%;
+  gap: 14rpx;
+  padding: 10rpx;
+  border-radius: 16rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(15, 23, 42, 0.07);
+  border: 1rpx solid #e7edf8;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 12rpx 32rpx rgba(31, 133, 255, 0.2);
+  border-color: #bfd4ff;
+}
+
+.search-input {
+  flex: 1;
+  height: 68rpx;
+  padding: 0 24rpx;
+  background: #f6f9ff;
+  border-radius: 14rpx;
+  border: 1rpx solid #dbe7ff;
+  color: #1f2937;
+  font-size: 28rpx;
+  font-family: 'PingFang SC Regular';
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #1f85ff;
+  background: #ffffff;
+  box-shadow: 0 0 0 4rpx rgba(31, 133, 255, 0.1);
+}
+
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+.search-btn {
+  width: 148rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  padding: 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff;
+  background: linear-gradient(135deg, #1f85ff 0%, #0d6ee9 100%);
+  border-radius: 14rpx;
+  font-family: 'PingFang SC Medium';
+  box-shadow: 0 4rpx 16rpx rgba(31, 133, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.search-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 2rpx 8rpx rgba(31, 133, 255, 0.4);
+  background: linear-gradient(135deg, #1d4ed8 0%, #0c4a9a 100%);
+}
+
+/* 附近车辆区域 */
+.nearby-wrap {
+  width: 100%;
+  display: block;
+  background: transparent;
+  border-radius: 0;
+  padding: 2rpx 0 0;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+  box-sizing: border-box;
+}
+
+.nearby-wrap .section-head {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2rpx;
+}
+
+.vehicle-card {
+  width: 100%;
+  box-sizing: border-box;
+  background: #fdfefe;
+  border-radius: 16rpx;
+  padding: 18rpx 16rpx;
+  box-shadow: 0 5rpx 16rpx rgba(15, 23, 42, 0.06);
+  border: 1rpx solid #ecf1f8;
+  margin-bottom: 8rpx;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.vehicle-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5rpx;
+  height: 100%;
+  background: linear-gradient(135deg, #1f85ff 0%, #0d6ee9 100%);
+  border-radius: 20rpx 0 0 20rpx;
+}
+
+.vehicle-card:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.08);
+}
+
+.vehicle-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-bottom: 10rpx;
+}
+
+.vehicle-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111827;
+  font-family: 'PingFang SC Medium';
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  font-size: 22rpx;
+  border-radius: 999rpx;
+  padding: 6rpx 18rpx;
+  border: 1rpx solid transparent;
+  font-family: 'PingFang SC Regular';
+}
+
+.s-available {
+  color: #0f9f6e;
+  background: #e9fbf4;
+  border-color: #b7f0d8;
+}
+
+.s-rented {
+  color: #2563eb;
+  background: #eaf2ff;
+  border-color: #bfd4ff;
+}
+
+.s-maintain,
+.s-cleaning {
+  color: #ca8a04;
+  background: #fff8e6;
+  border-color: #f8e3a8;
+}
+
+.s-disabled {
+  color: #64748b;
+  background: #f1f5f9;
+  border-color: #d7dee7;
+}
+
+.vehicle-meta {
+  font-size: 24rpx;
+  color: #64748b;
+  font-family: 'PingFang SC Regular';
+  margin-bottom: 14rpx;
+}
+
+.vehicle-grid {
+  display: flex;
+  gap: 10rpx;
+}
+
+.meta-item {
+  flex: 1;
+  background: linear-gradient(160deg, #f8fbff 0%, #f0f5ff 100%);
+  border-radius: 12rpx;
+  padding: 12rpx;
+  border: 1rpx solid #e6edfb;
+  transition: all 0.3s ease;
+}
+
+.meta-item:active {
+  background: linear-gradient(135deg, #eaf2ff 0%, #d6e7ff 100%);
+  border-color: #bfd4ff;
+}
+
+.meta-label {
+  font-size: 22rpx;
+  color: #94a3b8;
+  font-family: 'PingFang SC Regular';
+}
+
+.meta-value {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #334155;
+  font-weight: 500;
+  font-family: 'PingFang SC Medium';
+}
+
+.meta-value.price {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* 推荐区域 */
+.extra-wrap {
+  width: 100%;
+  margin-bottom: 0;
+  padding: 8rpx 0 2rpx;
+  margin-top: 2rpx;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.extra-wrap .section-head {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2rpx;
+  margin-bottom: 10rpx;
+}
+
+.extra-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.extra-card {
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1rpx solid #e9eef8;
+  border-radius: 16rpx;
+  padding: 18rpx 16rpx 18rpx 22rpx;
+  box-shadow: 0 4rpx 14rpx rgba(15, 23, 42, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.extra-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 6rpx;
+  height: 52rpx;
+  transform: translateY(-50%);
+  background: linear-gradient(180deg, #1f85ff 0%, #69a8ff 100%);
+  border-radius: 0 10rpx 10rpx 0;
+}
+
+.extra-card:active {
+  transform: translateY(1rpx);
+  box-shadow: 0 2rpx 10rpx rgba(15, 23, 42, 0.05);
+  background: #f9fbff;
+}
+
+.extra-title {
+  font-size: 32rpx;
+  color: #111827;
+  font-weight: 700;
+  font-family: 'PingFang SC Medium';
+  margin-bottom: 6rpx;
+  letter-spacing: 0.2rpx;
+}
+
+.extra-desc {
+  font-size: 25rpx;
+  color: #5f6f89;
+  line-height: 1.55;
+  font-family: 'PingFang SC Regular';
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 加载和空状态 */
+.loading,
+.empty {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 28rpx;
+  padding: 8rpx 0 4rpx;
+  font-family: 'PingFang SC Regular';
+  background: transparent;
+  border-radius: 0;
+  margin-top: 0;
+  box-shadow: none;
+  border: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 375px) {
+  .container {
+    padding: 6rpx 8rpx calc(104rpx + env(safe-area-inset-bottom));
+  }
+
+  .vehicle-card {
+    padding: 20rpx;
+  }
+  
+  .search-input {
+    font-size: 26rpx;
+  }
+  
+  .vehicle-title {
+    font-size: 30rpx;
+  }
+}

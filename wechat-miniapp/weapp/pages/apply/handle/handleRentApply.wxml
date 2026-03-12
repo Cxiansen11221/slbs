@@ -1,0 +1,62 @@
+<!-- pages/apply/handle/handleRentApply.wxml -->
+<i-message id="message" />
+
+<view class="page">
+  <view wx:if="{{loading}}" class="statePanel">加载中...</view>
+  <view wx:elif="{{loadError}}" class="statePanel">{{loadError}}</view>
+
+  <view wx:else class="content">
+    <view class="imageBox">
+      <swiper
+        indicator-dots="{{imageSetting.indicatorDots}}"
+        class="picSwiper"
+        autoplay="{{imageSetting.autoplay}}"
+        interval="{{imageSetting.interval}}"
+        duration="{{imageSetting.duration}}"
+      >
+        <block wx:for="{{viewData.images}}" wx:key="*this">
+          <swiper-item>
+            <image src="{{item}}" mode="aspectFill"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+
+    <view class="card">
+      <view class="priceText">{{viewData.priceText}}</view>
+      <view class="divider"></view>
+      <view class="title">基本信息</view>
+      <view class="line">所在地区：{{viewData.region}}</view>
+      <view class="line">地址：{{viewData.address}}</view>
+      <view class="line">续航：{{viewData.rangeText}}</view>
+      <view class="line">车辆型号：{{viewData.bikeTypeText}}</view>
+      <view class="line">距离：{{viewData.distanceText}}</view>
+    </view>
+
+    <view class="card compact">
+      <view class="statusRow">
+        <text class="label">状态：</text>
+        <i-tag color="blue">{{viewData.stateText}}</i-tag>
+      </view>
+      <view class="depositRow">
+        <text class="label">押金：</text>
+        <text class="deposit">{{viewData.depositText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footerBtns" wx:if="{{showSubmit}}">
+    <i-button bind:click="submitRentApply" type="primary" shape="circle" inline="true">
+      <view class="btnText">提交租赁申请</view>
+    </i-button>
+  </view>
+
+  <view class="footerBtns double" wx:if="{{rentApply && rentApply.state==1}}">
+    <i-button bind:click="agree" type="error" shape="circle" size="small" inline="true">
+      <view class="btnText">同意支付押金</view>
+    </i-button>
+    <i-button bind:click="disagree" type="default" shape="circle" size="small" inline="true">
+      <view class="btnText">取消租车</view>
+    </i-button>
+  </view>
+</view>

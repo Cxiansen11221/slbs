@@ -1,0 +1,62 @@
+/* pages/userInfo/manageLogin/login.wxss */
+.systemInfo{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.systemTitle{
+  text-align: center;
+  font-family: 华文楷体;
+  font-size: 40rpx;
+}
+
+.systemLogo{
+  margin: 0 auto;
+  
+}
+
+.form{
+  width: 80%;
+  margin: 0 auto;
+}
+
+page{
+  background-color: #F5F5F5;
+}
+
+.loginInput{
+  margin: 20rpx;
+}
+
+.btnText{
+  width: 200rpx;
+}
+
+.funBtn,
+.wechatLogin {
+  display: flex;
+  justify-content: center;
+}
+
+.funBtn {
+  margin: 20rpx 0;
+}
+
+.wechatLogin {
+  margin: 40rpx 0 20rpx 0;
+}
+
+.wx-auth-login-btn {
+  min-width: 320rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 999rpx;
+  border: 0;
+  color: #ffffff;
+  font-size: 28rpx;
+  background: linear-gradient(135deg, #2f88ff 0%, #0d6ee9 100%);
+}
+
+.wx-auth-login-btn::after {
+  border: 0;
+}

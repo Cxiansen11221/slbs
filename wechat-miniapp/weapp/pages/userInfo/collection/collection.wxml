@@ -1,0 +1,31 @@
+﻿<!--pages/userInfo/collection/collection.wxml-->
+<view class="collectionPage">
+  <block wx:if="{{bikeList.length}}">
+    <view class="bikeList">
+      <view class="bikeCard" wx:for="{{bikeList}}" wx:key="id" bindtap="toBikeInfo" data-id="{{item.id}}">
+        <view class="bikePic">
+          <image src="{{item.picUrl}}" mode="aspectFill"></image>
+        </view>
+        <view class="bikeInfo">
+          <view class="infoTitle">{{item.vehicleName}}</view>
+          <view class="distance">价格：<text class="priceText">{{item.priceText}}</text></view>
+          <view class="distance">类型：{{item.vehicleType}}</view>
+          <view class="distance">品牌：{{item.vehicleBrand}}</view>
+          <view class="distance">状态：{{item.statusText}}</view>
+          <view class="distance">地址：{{item.address}}</view>
+          <view class="actionRow">
+            <button
+              class="removeBtn"
+              data-id="{{item.id}}"
+              catchtap="removeCollection"
+            >
+              取消收藏
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <view wx:else class="empty">暂无收藏车辆，去详情页点“收藏”即可</view>
+</view>
+<i-toast id="toast" />

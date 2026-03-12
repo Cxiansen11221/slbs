@@ -1,0 +1,66 @@
+<view class="chat-page">
+  <scroll-view class="dialog-scroll" scroll-y scroll-with-animation scroll-into-view="{{toView}}">
+    <view class="scroll-content">
+      <view class="top-panel">
+        <view class="solution-card">
+          <view class="solution-header">
+            <view class="solution-icon">i</view>
+            <view class="solution-title">{{uiText.solutionTitle}}</view>
+          </view>
+          <view class="solution-topic">{{uiText.solutionTopic}}</view>
+          <view class="solution-subtopic">{{uiText.solutionSubtopic}}</view>
+          <view class="action-btn" bindtap="viewAll">{{uiText.primaryAction}}</view>
+          <view class="action-btn" bindtap="viewAll">{{uiText.secondaryAction}}</view>
+        </view>
+
+        <view class="more-row">
+          <text class="more-label">{{uiText.moreLabel}}</text>
+          <view class="shuffle-btn" bindtap="viewAll">
+            <text class="shuffle-icon">@</text>
+            <text>{{uiText.shuffle}}</text>
+          </view>
+        </view>
+
+        <view class="faq-list" wx:if="{{showQuestions}}">
+          <view class="faq-row" wx:for="{{currentQuestions}}" wx:key="q">
+            <view
+              class="faq-item"
+              data-question="{{item.q}}"
+              data-answer="{{item.a}}"
+              bindtap="tapQuestion"
+            >
+              <text class="faq-text">{{item.q}}</text>
+              <text class="faq-arrow">></text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="chat-area" wx:if="{{chatMessages.length}}">
+        <view
+          class="msg-row {{item.role === 'user' ? 'user' : 'service'}}"
+          wx:for="{{chatMessages}}"
+          wx:key="id"
+          id="msg-{{item.id}}"
+        >
+          <view class="msg-bubble {{item.role === 'user' ? 'user' : 'service'}}">
+            <text>{{item.text}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="composer">
+    <input
+      class="composer-input"
+      placeholder="{{uiText.askPlaceholder}}"
+      value="{{inputText}}"
+      focus="{{inputFocus}}"
+      confirm-type="send"
+      bindinput="onInput"
+      bindconfirm="sendInputMessage"
+    />
+    <view class="send-btn" bindtap="sendInputMessage">{{uiText.send}}</view>
+  </view>
+</view>

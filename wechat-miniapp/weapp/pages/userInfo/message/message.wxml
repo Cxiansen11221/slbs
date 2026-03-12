@@ -1,0 +1,35 @@
+<!--pages/userInfo/message/message.wxml-->
+<view class="messagePage">
+  <i-tabs current="{{currentTab}}" bindchange="tabChange" color="#d81e06">
+    <i-tab key="wait" title="未读"></i-tab>
+    <i-tab key="visited" title="已读"></i-tab>
+  </i-tabs>
+  
+  <view class="messageList">
+    <block wx:for="{{messageList}}" wx:key="*this">
+      <view class="everyMessage" bindtap="viewMessage" data-id="{{item.id}}">
+        <view class="title">{{item.title}}</view>
+        <view class="text">{{item.text}}</view>
+        <view class="time">{{item.createDate}}</view>
+      </view>
+    </block>
+    <view wx:if="{{messageList.length === 0}}" class="empty-tip">
+      <image src="/images/icons/tabbar/apply.png" mode="aspectFit"></image>
+      <text>暂无消息</text>
+    </view>
+  </view>
+  
+  <view aria-role="dialog" aria-modal="true" class="fadeIn" wx:if="{{dialogVisible}}">
+    <view class="weui-mask"></view>
+    <view class="weui-dialog weui-skin_android">
+      <view class="weui-dialog__bd">
+        <view class="title">{{viewMessage.title}}</view>
+        <view class="text">{{viewMessage.text}}</view>
+        <view class="time">{{viewMessage.createDate}}</view>
+      </view>
+      <view class="weui-dialog__ft">
+        <view aria-role="button" class="weui-dialog__btn weui-dialog__btn_default" bindtap="close">关闭</view>
+      </view>
+    </view>
+  </view>
+</view>

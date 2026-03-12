@@ -1,0 +1,88 @@
+/* pages/apply/handle/handleViewApply.wxss */
+.imageInfo{
+  width: 625rpx;
+  height: 500rpx;
+  margin: 0 auto;
+  margin-top: 10rpx;
+}
+.bikeInfo{
+  width: 100%;
+}
+
+.picSwiper{
+  height: 500rpx;
+}
+
+page{
+  background-color:  	#E8E8E8;
+}
+
+.baseInfoTitle{
+  font-size: 40rpx;
+  font-family: fangsong;
+  margin-bottom: 30rpx;
+}
+
+.baseInfo{
+  margin: 0;
+}
+
+.priceItem{
+  width: 100%;
+  text-align: center;
+}
+.company{
+  display: inline;
+}
+
+.bikePrice{
+  display: inline;
+  font-size: 50rpx;
+  color: red;
+  font-family:'Times New Roman', Times, serif;
+  align-items: center;
+}
+
+.describeTitle{
+  font-size: 40rpx;
+  font-family: fangsong;
+  margin-bottom: 30rpx;
+}
+
+.firstTime{
+  display: flex;
+  margin-left: 20rpx;
+  font-size: 30rpx;
+}
+.secondTime{
+  display: flex;
+  margin-left: 20rpx;
+  font-size: 30rpx;
+}
+
+.tip{
+  font-size: 25rpx;
+  right: 0;
+  color: green;
+  margin-top: 30rpx;
+  text-align: center;
+}
+
+.funBtn{
+  justify-content: space-between;
+  width: 100%;
+  display: flex;
+}
+
+.i-btn{
+  margin: 10px 50px !important;
+}
+
+.btnText{
+  width: 120rpx;
+}
+
+.applyState{
+  display: flex;
+  margin-left: 20rpx;
+}

@@ -1,0 +1,80 @@
+page {
+  background: #f3f6fb;
+}
+
+.container {
+  display: block;
+  width: 100%;
+  min-height: calc(100vh - 40rpx);
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.search-bar {
+  display: flex;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+  padding: 12rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(15, 23, 42, 0.06);
+}
+
+.search-input {
+  flex: 1;
+  height: 72rpx;
+  padding: 0 22rpx;
+  background: #f7faff;
+  border-radius: 12rpx;
+  border: 1rpx solid #dbe7ff;
+  color: #1f2937;
+}
+
+.search-btn {
+  width: 144rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  padding: 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff;
+  background: linear-gradient(135deg, #1f85ff 0%, #0d6ee9 100%);
+  border-radius: 12rpx;
+}
+
+.result-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 16rpx;
+  padding-left: 4rpx;
+}
+
+.bike-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 14rpx;
+  box-shadow: 0 8rpx 24rpx rgba(15, 23, 42, 0.06);
+  border: 1rpx solid #edf2fb;
+}
+
+.bike-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.bike-line {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #64748b;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 24rpx;
+  padding: 24rpx;
+}

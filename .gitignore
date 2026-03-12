@@ -1,0 +1,25 @@
+## OS
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+logs/
+
+## Java
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+
+## Node
+node_modules/
+admin-web/dist/
+admin-web/.vite/
+
+## WeChat IDE
+wechat-miniapp/project.private.config.json
+
+## IDE
+.idea/
+.vscode/
+*.iml
+

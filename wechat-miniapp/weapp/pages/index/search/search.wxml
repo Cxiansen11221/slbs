@@ -1,0 +1,29 @@
+﻿<view class="container">
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="输入品牌或编号"
+      value="{{condition}}"
+      bindinput="conditionChange"
+      confirm-type="search"
+      bindconfirm="searchBike"
+    />
+    <button class="search-btn" bindtap="searchBike">查询</button>
+  </view>
+
+  <view class="result-title">搜索结果</view>
+
+  <block wx:if="{{bikeList.length}}">
+    <block wx:for="{{bikeList}}" wx:key="vehicleId">
+      <view class="bike-card" bindtap="toBikeInfo" data-id="{{item.vehicleId}}">
+        <view class="bike-name">{{item.brand}} {{item.model}}</view>
+        <view class="bike-line">编号：{{item.vehicleNumber}}</view>
+        <view class="bike-line">电量：{{item.batteryLevel}}%</view>
+      </view>
+    </block>
+    <view wx:if="{{bottomLoading}}" class="loading">加载中...</view>
+    <view wx:if="{{!hasMore}}" class="loading">没有更多数据了</view>
+  </block>
+
+  <view wx:else class="empty">未找到匹配车辆</view>
+</view>

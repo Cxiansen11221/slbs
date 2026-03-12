@@ -1,0 +1,124 @@
+/* pages/userInfo/message/message.wxss */
+.messagePage {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 30rpx;
+}
+
+.messageList {
+  padding: 20rpx 0;
+}
+
+.everyMessage {
+  margin: 20rpx 30rpx;
+  padding: 25rpx;
+  background-color: white;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+}
+
+.everyMessage:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.text {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time {
+  font-size: 24rpx;
+  color: #999;
+  text-align: right;
+}
+
+.empty-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-tip image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.6;
+}
+
+.empty-tip text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* Dialog styles */
+.weui-mask {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.weui-dialog {
+  border-radius: 24rpx;
+  overflow: hidden;
+  width: 80%;
+  max-width: 600rpx;
+}
+
+.weui-dialog__bd {
+  padding: 40rpx;
+}
+
+.weui-dialog__bd .title {
+  font-size: 36rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  border-bottom: none;
+  color: #333;
+}
+
+.weui-dialog__bd .text {
+  font-size: 30rpx;
+  -webkit-line-clamp: unset;
+  margin-bottom: 30rpx;
+  color: #666;
+  white-space: pre-wrap;
+}
+
+.weui-dialog__bd .time {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.weui-dialog__ft {
+  border-top: 1rpx solid #f0f0f0;
+  display: flex;
+}
+
+.weui-dialog__btn {
+  padding: 30rpx 0;
+  font-size: 32rpx;
+  flex: 1;
+  text-align: center;
+}
+
+.weui-dialog__btn_default {
+  color: #d81e06;
+}

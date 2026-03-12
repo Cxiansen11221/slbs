@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: wx-platform-backend
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  security:
+    token-secret: replace-with-your-prod-secret
+    token-expire-seconds: 7200
+  wechat:
+    mini-program:
+      app-id: ${WECHAT_MINI_APP_ID:}
+      app-secret: ${WECHAT_MINI_APP_SECRET:}
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - https://servicewechat.com

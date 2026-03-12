@@ -1,0 +1,22 @@
+﻿<!--pages/userInfo/manageLogin/login.wxml-->
+<view class="loginPage">
+  <view class="systemInfo">
+    <view class="systemTitle">{{systemName}}</view>
+    <view class="systemLogo">
+      <image src="{{picLocal+systemLogo}}" wx:if="{{systemLogo}}"></image>
+    </view>
+  </view>
+  <view class="form">
+    <i-input value="{{ loginName }}" type="text" title="登录账户" placeholder="请输入登录账户" maxlength="20" bind:change="loginNameChange" i-class="loginInput"/>
+    <i-input value="{{ password }}" type="password" title="密码" placeholder="请输入密码" maxlength="20" bind:change="passwordChange" i-class="loginInput"/>
+  </view>
+  <view class="funBtn">
+    <i-button bind:click="login" type="success" shape="circle" size="small" inline="true">
+      <view class="btnText">登录</view>
+    </i-button>
+  </view>
+  <view class="wechatLogin">
+    <button class="wx-auth-login-btn" open-type="getPhoneNumber" bindgetphonenumber="wechatLogin">微信登录</button>
+  </view>
+  <view class="tip"></view>
+</view>

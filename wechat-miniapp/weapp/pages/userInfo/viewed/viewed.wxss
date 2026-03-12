@@ -1,0 +1,71 @@
+/* pages/userInfo/viewed/viewed.wxss */
+page {
+  background-color: #f3f4f6;
+}
+
+.viewedPage {
+  padding: 18rpx 20rpx 26rpx;
+}
+
+.statePanel {
+  margin-top: 120rpx;
+  text-align: center;
+  color: #6b7280;
+  font-size: 28rpx;
+}
+
+.bikeList {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.bikeCard {
+  display: flex;
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 18rpx;
+  box-shadow: 0 8rpx 20rpx rgba(15, 23, 42, 0.08);
+}
+
+.bikePic {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+  background: #eef2f7;
+}
+
+.bikeInfo {
+  flex: 1;
+  margin-left: 16rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 10rpx;
+}
+
+.label {
+  width: 120rpx;
+  color: #6b7280;
+  font-size: 23rpx;
+  flex-shrink: 0;
+}
+
+.value {
+  color: #111827;
+  font-size: 24rpx;
+  line-height: 1.45;
+  word-break: break-all;
+}
+
+.price {
+  color: #ef4444;
+  font-weight: 600;
+}

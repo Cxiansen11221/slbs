@@ -1,0 +1,58 @@
+// utils.wxs
+var bikeTypeOptions = [
+  { index: 1, value: "雅迪" },
+  { index: 2, value: "爱玛" },
+  { index: 3, value: "新日" },
+  { index: 4, value: "小牛电动" },
+  { index: 5, value: "绿源" },
+  { index: 6, value: "台铃" },
+  { index: 7, value: "捷安特" },
+  { index: 8, value: "雅马哈" },
+  { index: 9, value: "其他" }
+];
+
+function getBikeTypeValue(index) {
+ 
+  for (var i = 0; i < bikeTypeOptions.length; i++) {
+    if (bikeTypeOptions[i].index == index) {
+      return bikeTypeOptions[i].value;
+    }
+  }
+  return '未知型号'; // 如果没有找到匹配的型号，返回默认值
+}
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  // 地球半径（单位：公里）
+  if(lat2==null || lon2 ==null){
+    return "未知"
+  }
+  var R = 6371;
+
+  // 将经纬度从度数转换为弧度
+  var toRadians = function(degrees) {
+    return degrees * (Math.PI / 180);
+  };
+  var radLat1 = toRadians(lat1);
+  var radLon1 = toRadians(lon1);
+  var radLat2 = toRadians(lat2);
+  var radLon2 = toRadians(lon2);
+
+  // 计算差值
+  var dLat = radLat2 - radLat1;
+  var dLon = radLon2 - radLon1;
+
+  // 应用 Haversine 公式
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(radLat1) * Math.cos(radLat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  // 计算距离
+  var distance = R * c;
+  return distance.toFixed(2); // 返回保留两位小数的距离
+}
+
+module.exports = {
+  getBikeTypeValue: getBikeTypeValue,
+  haversineDistance: haversineDistance
+};

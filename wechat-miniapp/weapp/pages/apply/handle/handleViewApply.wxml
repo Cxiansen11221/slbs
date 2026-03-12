@@ -1,0 +1,57 @@
+<!--pages/apply/handle/handleViewApply.wxml-->
+<wxs src="/pages/index/utils.wxs" module="utils" />
+<i-message id="message" />
+<view class="bikeInfo">
+  <view class="imageInfo">
+    <swiper indicator-dots="{{imageSetting.indicatorDots}}" class="picSwiper" autoplay="{{imageSetting.autoplay}}" interval="{{imageSetting.interval}}" duration="{{imageSetting.duration}}">
+      <block wx:for="{{viewApply.bikeResource.picList}}" wx:key="*this">
+        <swiper-item>
+          <view>
+            <image src="{{picLocal+item.url}}"></image>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class="baseInfo">
+    <i-divider color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+    <view class="baseInfoTitle">基本信息</view>
+    <view class="otherInfo" style="padding-left:30rpx">
+      <view class="address">长租价格：{{viewApply.bikeResource.rentingMonth}} 元/月</view>
+      <view class="address">短租价格：{{viewApply.bikeResource.rentingHour}} 元/时</view>
+      <view class="province">所在地区：{{viewApply.bikeResource.province+viewApply.bikeResource.city+viewApply.bikeResource.county}}</view>
+      <view class="address">地址：{{viewApply.bikeResource.address}}</view>
+      <view class="area"> 续航：{{viewApply.bikeResource.distance}}公里</view>
+      <view class="bikeType">车辆型号：{{utils.getBikeTypeValue(viewApply.bikeResource.bikeType)}}</view>
+      <view class="bikeType">距离：{{utils.haversineDistance(viewApply.bikeResource.latitude, viewApply.bikeResource.longitude, viewApply.bikeResource.userLatitude, viewApply.bikeResource.userLongitude)}}公里</view>
+    </view>
+  </view>
+  <i-divider color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+  <view class="firstTime">
+    <view class="firstTimeTitle">预约看车时间：</view>
+    <view class="firstValue">{{viewApply.viewTime}}</view>
+  </view>
+  <view class="secondTime" wx:if="{{viewApply.viewTimeRe}}">
+    <view class="secondTimeTitle">再次预约看车时间：</view>
+    <view class="secondValue">{{viewApply.viewTimeRe}}</view>
+  </view>
+  <view class="applyState">
+    <view class="stateTitle">状态：</view>
+    <view class="state">
+      <i-tag wx:if="{{viewApply.state==0}}" color="blue">申请中</i-tag>
+      <i-tag wx:if="{{viewApply.state==1}}" color="green">申请通过</i-tag>
+      <i-tag wx:if="{{viewApply.state==2}}" color="blue">申请另选时间</i-tag>
+      <i-tag wx:if="{{viewApply.state==3}}" color="red">申请拒绝</i-tag>
+      <i-tag wx:if="{{viewApply.state==4}}" clolr="red">申请另选时间拒绝</i-tag>
+      <i-tag wx:if="{{viewApply.state==5}}">已结束</i-tag>
+      <i-tag wx:if="{{viewApply.state==6}}" color="blue">申请另选时间通过</i-tag>
+    </view>
+  </view>
+  <view class="tip">请在预约好的时间及时到场哦！</view>
+  <view class="funBtn" wx:if="{{viewApply.state==2}}">
+    <i-button bind:click="agree" type="error" shape="circle" size="small" style="margin-left: 50rpx;" 
+        inline="true"><view class="btnText">同意</view></i-button>
+    <i-button bind:click="disagree" type="error" shape="circle" size="small" style="margin-right: 50rpx;" 
+        inline="true"><view class="btnText">拒绝</view></i-button>
+  </view>
+</view>

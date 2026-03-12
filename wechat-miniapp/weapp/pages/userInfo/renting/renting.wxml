@@ -1,0 +1,64 @@
+<!--pages/userInfo/renting/renting.wxml-->
+<wxs src="/pages/index/utils.wxs" module="utils" />
+<view class="rentingPage">
+  <view class="bikeList">
+    <block wx:for="{{bikeList}}" wx:key="*this">
+      <view class="bikeCard" bindtap="toBikeInfo" data-id="{{item.id}}">
+        <view class="bikePic">
+          <image src="{{picLocal+item.picList[0].url}}" style="width: 210rpx;height: 190rpx;"></image>
+        </view>
+        <view class="hosueInfo">
+              <view class="tagInfo">
+                <view class="address">
+                <view  style="font-size: 10px;">
+                  长租价格：
+                </view>
+                <view class="addressDetail" style="font-size: 10px;">
+                  <span style="color: red;">{{item.rentingMonth}}</span> 元/月</view>
+                </view>
+                <view class="address">
+                <view style="font-size: 10px;">
+                  短租价格：
+                </view>
+                <view class="addressDetail" style="font-size: 10px;">
+                  <span style="color: red;">{{item.rentingHour}}</span> 元/时</view>
+                </view>
+              <view class="address">
+                <view style="font-size: 10px;">
+                  地址：
+                </view>
+                <view class="addressDetail" style="font-size: 10px;">
+                  {{item.province}}{{item.city}}{{item.county}}{{item.address}}
+                </view>
+              </view>
+              <view class="address">
+                <view style="font-size: 10px;">
+                  续航：
+                </view>
+                <view class="addressDetail" style="font-size: 10px;">
+                  {{item.distance}}公里
+                </view>
+                
+              </view>
+              <view class="address">
+                <view class="addTitle" style="font-size: 10px;">
+                  车辆型号：{{utils.getBikeTypeValue(item.bikeType)}}
+                </view>
+              </view>
+              <!-- <view class="address">
+                <view class="addTitle" style="font-size: 10px;">
+                  距离：{{utils.haversineDistance(item.latitude, item.longitude, item.userLatitude, item.userLongitude)}} 公里
+                </view>
+              </view> -->
+            </view>
+          </view>
+        <view class="actionButtons">
+          <button class="returnButton" bindtap="returnBike" data-id="{{item.id}}">还车</button>
+        </view>
+      </view>
+
+    </block>
+  </view>
+  <i-load-more loading="{{ bottomLoading }}" />
+</view>
+<i-toast id="toast" />

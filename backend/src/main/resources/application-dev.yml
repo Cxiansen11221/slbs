@@ -1,0 +1,24 @@
+logging:
+  level:
+    root: INFO
+    com.company.wxplatform: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/electric_vehicle_rental?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+app:
+  wechat:
+    mini-program:
+      app-id: wxaea00cf00a69058e
+      app-secret: 879d32046e64e92ef4fac50d21b89897

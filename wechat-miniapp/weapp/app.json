@@ -1,0 +1,54 @@
+{
+  "usingComponents": {},
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/userInfo/myInfo",
+    "pages/index/recommend/recommend",
+    "pages/index/bikeInfo/bikeInfo",
+    "pages/apply/apply",
+    "pages/userInfo/changeMyInfo",
+    "pages/apply/handle/handleViewApply",
+    "pages/userInfo/message/message",
+    "pages/userInfo/manageLogin/login",
+    "pages/apply/handle/handleRentApply",
+    "pages/apply/submitOrder/submitOrder",
+    "pages/userInfo/collection/collection",
+    "pages/userInfo/viewed/viewed",
+    "pages/userInfo/rentRecord/rentRecord"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#007AFF",
+    "navigationBarTitleText": "\u79df\u8f66",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#007AFF",
+    "list": [
+      {
+        "iconPath": "images/icons/tabbar/home.png",
+        "selectedIconPath": "images/icons/tabbar/home-active.png",
+        "pagePath": "pages/index/index",
+        "text": "\u9996\u9875"
+      },
+      {
+        "iconPath": "images/icons/tabbar/apply.png",
+        "selectedIconPath": "images/icons/tabbar/apply-active.png",
+        "pagePath": "pages/apply/apply",
+        "text": "\u5ba2\u670d"
+      },
+      {
+        "iconPath": "images/icons/tabbar/my.png",
+        "selectedIconPath": "images/icons/tabbar/my-active.png",
+        "pagePath": "pages/userInfo/myInfo",
+        "text": "\u6211\u7684"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "sitemapLocation": "sitemap.json"
+}

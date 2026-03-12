@@ -1,0 +1,37 @@
+<!-- pages/userInfo/viewed/viewed.wxml -->
+<view class="viewedPage">
+  <view wx:if="{{loading}}" class="statePanel">加载中...</view>
+  <view wx:elif="{{loadError}}" class="statePanel">{{loadError}}</view>
+  <view wx:elif="{{bikeList.length === 0}}" class="statePanel">暂无看车记录</view>
+
+  <view wx:else class="bikeList">
+    <view class="bikeCard" wx:for="{{bikeList}}" wx:key="id" bindtap="toBikeInfo" data-id="{{item.id}}">
+      <image class="bikePic" src="{{item.picUrl}}" mode="aspectFill"></image>
+      <view class="bikeInfo">
+        <view class="row">
+          <text class="label">车型</text>
+          <text class="value">{{item.bikeType}}</text>
+        </view>
+        <view class="row">
+          <text class="label">短租价格</text>
+          <text class="value price">{{item.hourPrice}} 元/小时</text>
+        </view>
+        <view class="row">
+          <text class="label">长租价格</text>
+          <text class="value price">{{item.monthPrice}} 元/月</text>
+        </view>
+        <view class="row">
+          <text class="label">地址</text>
+          <text class="value">{{item.region}}{{item.address}}</text>
+        </view>
+        <view class="row">
+          <text class="label">续航</text>
+          <text class="value">{{item.distance}} 公里</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <i-load-more loading="{{bottomLoading}}" />
+</view>
+<i-toast id="toast" />
