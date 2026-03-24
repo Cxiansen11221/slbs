@@ -7,7 +7,7 @@
       </div>
     </template>
     <el-table :data="users" v-loading="loading" style="width: 100%">
-      <el-table-column prop="id" label="ID" width="90" />
+      <el-table-column type="index" :label="'\u5e8f\u53f7'" width="80" />
       <el-table-column prop="username" label="用户名" />
       <el-table-column prop="nickname" label="昵称" />
       <el-table-column label="用户类型" width="120">

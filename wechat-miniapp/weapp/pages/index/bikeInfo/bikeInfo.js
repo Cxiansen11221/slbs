@@ -40,7 +40,8 @@ Page({
       || item.hourlyPrice
       || (cacheItem && (cacheItem.price || cacheItem.rentPrice || cacheItem.hourPrice || cacheItem.hourlyPrice))
       || 0;
-    const battery = Number(item.batteryLevel || item.battery_percentage || 0);
+    const cachedBattery = cacheItem && (cacheItem.batteryLevel || cacheItem.battery_percentage);
+    const battery = Number(item.batteryLevel || item.battery_percentage || cachedBattery || 0);
     const status = item.status;
     const statusText = status === 1 ? '可用' : (status === 2 ? '已租' : '不可用');
 

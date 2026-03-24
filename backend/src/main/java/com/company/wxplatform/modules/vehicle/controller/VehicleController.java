@@ -50,8 +50,8 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<Vehicle> getVehicleById(@PathVariable Long id) {
-        return vehicleService.getVehicleById(id)
+    public ApiResponse<VehicleDTO> getVehicleById(@PathVariable Long id) {
+        return vehicleService.getVehicleDTOById(id)
                 .map(vehicle -> ApiResponse.success("Get vehicle success", vehicle))
                 .orElse(ApiResponse.error("Vehicle not found"));
     }

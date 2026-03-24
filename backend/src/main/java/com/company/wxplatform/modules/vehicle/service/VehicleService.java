@@ -15,6 +15,7 @@ public interface VehicleService {
     Vehicle updateVehicle(Vehicle vehicle);
     void deleteVehicle(Long vehicleId);
     Optional<Vehicle> getVehicleById(Long vehicleId);
+    Optional<VehicleDTO> getVehicleDTOById(Long vehicleId);
     List<Vehicle> getVehicleList(int page, int size);
     List<VehicleDTO> getVehicleDTOList(int page, int size, String vehicleNumber, String brand, Integer status);
     int getVehicleCount();

@@ -93,6 +93,15 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public Optional<VehicleDTO> getVehicleDTOById(Long vehicleId) {
+        return vehicleRepository.findById(vehicleId)
+                .map(vehicle -> new VehicleDTO(
+                        vehicle,
+                        vehicleStatusRepository.findByVehicleId(vehicle.getVehicleId()).orElse(null)
+                ));
+    }
+
+    @Override
     public List<Vehicle> getVehicleList(int page, int size) {
         return vehicleRepository.findAll(PageRequest.of(page - 1, size)).getContent();
     }

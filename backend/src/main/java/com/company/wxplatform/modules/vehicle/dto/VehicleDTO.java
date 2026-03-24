@@ -16,6 +16,7 @@ public class VehicleDTO {
     private Double price;
     private Integer status;
     private Integer batteryLevel;
+    private Double rangeMileage;
 
     public VehicleDTO(Vehicle vehicle, VehicleStatus status) {
         this.vehicleId = vehicle.getVehicleId();
@@ -27,11 +28,12 @@ public class VehicleDTO {
         this.model = vehicle.getModel();
         this.vehicleType = vehicle.getVehicleType();
         this.batteryType = vehicle.getBatteryType();
+        this.rangeMileage = vehicle.getRangeMileage();
         this.price = vehicle.getHourlyPrice() != null ? vehicle.getHourlyPrice() : resolveHourlyPrice(vehicle.getVehicleType());
 
         if (status != null) {
             this.status = status.getCurrentStatus();
-            this.batteryLevel = status.getBatteryPercentage();
+            this.batteryLevel = status.getBatteryPercentage() != null ? status.getBatteryPercentage() : 100;
         } else {
             this.status = 1;
             this.batteryLevel = 100;
@@ -144,5 +146,13 @@ public class VehicleDTO {
 
     public void setBatteryLevel(Integer batteryLevel) {
         this.batteryLevel = batteryLevel;
+    }
+
+    public Double getRangeMileage() {
+        return rangeMileage;
+    }
+
+    public void setRangeMileage(Double rangeMileage) {
+        this.rangeMileage = rangeMileage;
     }
 }

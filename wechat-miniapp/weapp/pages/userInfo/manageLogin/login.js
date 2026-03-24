@@ -9,7 +9,10 @@ Page({
     systemName: '易租车平台',
     systemLogo: '',
     loginName: '',
-    password: ''
+    password: '',
+    showPassword: false,
+    eyeOpenIcon: 'https://api.iconify.design/mdi/eye.svg',
+    eyeClosedIcon: 'https://api.iconify.design/mdi/eye-off.svg'
   },
 
   onLoad() {
@@ -50,6 +53,14 @@ Page({
 
   passwordChange(e) {
     this.setData({ password: e.detail.detail.value });
+  },
+
+  passwordInput(e) {
+    this.setData({ password: e.detail.value || '' });
+  },
+
+  togglePassword() {
+    this.setData({ showPassword: !this.data.showPassword });
   },
 
   wechatLogin(e) {

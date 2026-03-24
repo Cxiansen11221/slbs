@@ -418,3 +418,60 @@ INSERT INTO parking_space (store_id, space_code, space_type) VALUES
 INSERT INTO system_announcement (title, content, announcement_type, publisher_id, status, is_top) VALUES
 ('系统上线通知', '尊敬的用户，石龙镇电动车租赁系统已正式上线，欢迎使用！', 1, 1, 2, 1),
 ('春节运营安排', '春节期间（2月10日-2月17日）营业时间调整为10:00-18:00，敬请留意。', 2, 1, 2, 0);
+
+-- =========================
+-- 兼容当前代码的补充结构（不删除任何旧表）
+-- =========================
+
+-- 车辆：补充小时租金字段（若已存在可忽略；MySQL 8+ 支持 IF NOT EXISTS）
+ALTER TABLE vehicle ADD COLUMN IF NOT EXISTS hourly_price DECIMAL(10,2) NULL;
+
+-- 首页推荐
+CREATE TABLE IF NOT EXISTS home_recommend (
+    recommend_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100),
+    content TEXT,
+    sort_order INT,
+    status INT,
+    create_time DATETIME,
+    update_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='首页推荐';
+
+-- 看车记录
+CREATE TABLE IF NOT EXISTS user_viewed (
+    view_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    vehicle_id BIGINT NOT NULL,
+    viewed_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id) ON DELETE CASCADE,
+    INDEX idx_user_viewed_user_time (user_id, viewed_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='看车记录';
+
+-- 取还车记录（与实体 take_return_record 对齐）
+CREATE TABLE IF NOT EXISTS take_return_record (
+    record_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    order_id BIGINT NOT NULL,
+    taker_id BIGINT,
+    pickup_store_id BIGINT,
+    pickup_location VARCHAR(255),
+    pickup_battery_level INT,
+    pickup_vehicle_status VARCHAR(50),
+    pickup_note TEXT,
+    returner_id BIGINT,
+    return_store_id BIGINT,
+    return_location VARCHAR(255),
+    return_battery_level INT,
+    return_vehicle_status VARCHAR(50),
+    return_inspector VARCHAR(50),
+    return_note TEXT,
+    FOREIGN KEY (order_id) REFERENCES `orders`(order_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='取还车记录';
+
+-- 索引补充
+CREATE INDEX IF NOT EXISTS idx_user_phone ON user(phone);
+CREATE INDEX IF NOT EXISTS idx_vehicle_code ON vehicle(vehicle_code);
+CREATE INDEX IF NOT EXISTS idx_collection_user_id ON user_collection(user_id);
+CREATE INDEX IF NOT EXISTS idx_order_user_id ON `orders`(user_id);
+CREATE INDEX IF NOT EXISTS idx_order_status ON `orders`(order_status);
+CREATE INDEX IF NOT EXISTS idx_deposit_user_id ON deposit(user_id);

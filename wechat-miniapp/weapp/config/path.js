@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿const path={
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const path={
   //鐢ㄦ埛
   wechatLogin:'api/user/login',
   getLoginData:'api/user/getLoginData',
