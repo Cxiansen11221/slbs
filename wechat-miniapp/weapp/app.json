@@ -11,6 +11,7 @@
     "pages/apply/handle/handleViewApply",
     "pages/userInfo/message/message",
     "pages/userInfo/manageLogin/login",
+    "pages/userInfo/repair/repair",
     "pages/apply/handle/handleRentApply",
     "pages/apply/submitOrder/submitOrder",
     "pages/userInfo/collection/collection",

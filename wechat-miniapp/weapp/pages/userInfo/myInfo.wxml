@@ -58,14 +58,19 @@
         <text class="grid-label">{{i18n.viewed}}</text>
       </view>
       <view class="grid-item" bindtap="toMessage">
-        <view class="grid-icon"><i-icon type="message" size="32" color="#007AFF" /></view>
+        <view class="grid-icon">
+          <i-icon type="message" size="32" color="#007AFF" />
+          <view wx:if="{{count.messageCount && count.messageCount > 0}}" class="badge-count">
+            {{count.messageCount > 99 ? '99+' : count.messageCount}}
+          </view>
+        </view>
         <text class="grid-label">{{i18n.message}}</text>
       </view>
       <view class="grid-item">
         <view class="grid-icon"><i-icon type="setup" size="32" color="#007AFF" /></view>
         <text class="grid-label">{{i18n.setting}}</text>
       </view>
-      <view class="grid-item">
+      <view class="grid-item" bindtap="toRepair">
         <view class="grid-icon"><i-icon type="prompt" size="32" color="#007AFF" /></view>
         <text class="grid-label">{{i18n.help}}</text>
       </view>

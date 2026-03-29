@@ -3,24 +3,34 @@
   <block wx:if="{{bikeList.length}}">
     <view class="bikeList">
       <view class="bikeCard" wx:for="{{bikeList}}" wx:key="id" bindtap="toBikeInfo" data-id="{{item.id}}">
-        <view class="bikePic">
-          <image src="{{item.picUrl}}" mode="aspectFill"></image>
-        </view>
+        <image class="bikePic" src="{{item.picUrl}}" mode="aspectFill"></image>
         <view class="bikeInfo">
-          <view class="infoTitle">{{item.vehicleName}}</view>
-          <view class="distance">价格：<text class="priceText">{{item.priceText}}</text></view>
-          <view class="distance">类型：{{item.vehicleType}}</view>
-          <view class="distance">品牌：{{item.vehicleBrand}}</view>
-          <view class="distance">状态：{{item.statusText}}</view>
-          <view class="distance">地址：{{item.address}}</view>
+          <view class="row">
+            <text class="label">车辆名称</text>
+            <text class="value name-value">{{item.vehicleName}}</text>
+          </view>
+          <view class="row">
+            <text class="label">短租价格</text>
+            <text class="value price">{{item.priceText}}</text>
+          </view>
+          <view class="row">
+            <text class="label">车型</text>
+            <text class="value">{{item.vehicleType}}</text>
+          </view>
+          <view class="row">
+            <text class="label">品牌</text>
+            <text class="value">{{item.vehicleBrand}}</text>
+          </view>
+          <view class="row">
+            <text class="label">状态</text>
+            <text class="value">{{item.statusText}}</text>
+          </view>
+          <view class="row">
+            <text class="label">地址</text>
+            <text class="value">{{item.address}}</text>
+          </view>
           <view class="actionRow">
-            <button
-              class="removeBtn"
-              data-id="{{item.id}}"
-              catchtap="removeCollection"
-            >
-              取消收藏
-            </button>
+            <button class="removeBtn" data-id="{{item.id}}" catchtap="removeCollection">取消收藏</button>
           </view>
         </view>
       </view>

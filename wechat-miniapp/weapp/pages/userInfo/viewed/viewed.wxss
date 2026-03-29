@@ -41,13 +41,14 @@ page {
   margin-left: 16rpx;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 6rpx;
   min-width: 0;
 }
 
 .row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10rpx;
 }
 
@@ -62,10 +63,21 @@ page {
   color: #111827;
   font-size: 24rpx;
   line-height: 1.45;
-  word-break: break-all;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .price {
   color: #ef4444;
   font-weight: 600;
+}
+
+.name-value{
+  font-size: 26rpx;
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

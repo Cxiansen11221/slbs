@@ -149,6 +149,7 @@ Page({
     return {
       id: String(source.id || ''),
       picUrl: this.normalizeImage(source.picUrl),
+      vehicleName: source.vehicleName || '',
       monthPrice: source.monthPrice || '--',
       hourPrice: source.hourPrice || '--',
       region: source.region || '',

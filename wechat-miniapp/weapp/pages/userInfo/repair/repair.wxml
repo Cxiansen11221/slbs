@@ -1,0 +1,46 @@
+<!-- pages/userInfo/repair/repair.wxml -->
+<view class="repairPage">
+  <view class="card">
+    <view class="card-title">车辆报修</view>
+
+    <view class="form-row">
+      <text class="label">车辆</text>
+      <picker mode="selector" range="{{orderVehicleLabels}}" value="{{orderVehicleIndex}}" bindchange="onVehiclePick">
+        <view class="picker">{{orderVehicleLabels[orderVehicleIndex] || '请选择订单车辆'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">故障类型</text>
+      <picker mode="selector" range="{{faultTypes}}" value="{{faultTypeIndex}}" bindchange="onFaultTypeChange">
+        <view class="picker">{{faultTypes[faultTypeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row textarea-row">
+      <text class="label">故障描述</text>
+      <textarea
+        class="textarea"
+        placeholder="请描述故障现象，例如：电池不充电、轮胎漏气"
+        placeholder-class="input-placeholder"
+        value="{{description}}"
+        maxlength="200"
+        bindinput="onDescriptionInput"
+      ></textarea>
+    </view>
+
+    <view class="form-row">
+      <text class="label">联系方式</text>
+      <input
+        class="input"
+        type="text"
+        placeholder="可选：填写手机号/微信号"
+        placeholder-class="input-placeholder"
+        value="{{contact}}"
+        bindinput="onContactInput"
+      />
+    </view>
+
+    <button class="submit-btn" loading="{{submitting}}" bindtap="submitReport">提交报修</button>
+  </view>
+</view>

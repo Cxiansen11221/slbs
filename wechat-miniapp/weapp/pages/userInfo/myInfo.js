@@ -44,7 +44,7 @@ Page({
       orders: '\u6211\u7684\u8ba2\u5355',
       message: '\u6211\u7684\u6d88\u606f',
       setting: '\u8bbe\u7f6e',
-      help: '\u5e2e\u52a9\u4e2d\u5fc3',
+      help: '\u8f66\u8f86\u62a5\u4fee',
       logout: '\u9000\u51fa\u767b\u5f55'
     }
   },
@@ -429,14 +429,10 @@ Page({
   updateMyTabBadge(unreadCount) {
     const num = Number(unreadCount || 0);
     if (!Number.isFinite(num) || num <= 0) {
-      wx.removeTabBarBadge({ index: 2 });
+      wx.hideTabBarRedDot({ index: 2 });
       return;
     }
-    const text = num > 99 ? '99+' : String(num);
-    wx.setTabBarBadge({
-      index: 2,
-      text
-    });
+    wx.showTabBarRedDot({ index: 2 });
   },
 
   onHeadPicError() {
@@ -866,5 +862,8 @@ Page({
 
   toRentRecord() {
     wx.navigateTo({ url: './rentRecord/rentRecord' });
+  },
+  toRepair() {
+    wx.navigateTo({ url: './repair/repair' });
   }
 });

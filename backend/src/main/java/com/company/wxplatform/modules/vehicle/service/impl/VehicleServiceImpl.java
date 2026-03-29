@@ -8,6 +8,7 @@ import com.company.wxplatform.modules.vehicle.repository.VehicleMaintenanceRepos
 import com.company.wxplatform.modules.vehicle.repository.VehicleRepository;
 import com.company.wxplatform.modules.vehicle.repository.VehicleStatusRepository;
 import com.company.wxplatform.modules.vehicle.service.VehicleService;
+import com.company.wxplatform.modules.message.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
     private VehicleMaintenanceRepository vehicleMaintenanceRepository;
+
+    @Autowired
+    private MessageService messageService;
 
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
@@ -79,7 +83,14 @@ public class VehicleServiceImpl implements VehicleService {
         if (vehicle.getHourlyPrice() == null || vehicle.getHourlyPrice() <= 0) {
             vehicle.setHourlyPrice(existing.getHourlyPrice() != null ? existing.getHourlyPrice() : resolveHourlyPrice(vehicle.getVehicleType()));
         }
-        return vehicleRepository.save(vehicle);
+        Vehicle saved = vehicleRepository.save(vehicle);
+        if (vehicle.getStatus() != null) {
+            vehicleStatusRepository.findByVehicleId(saved.getVehicleId()).ifPresent(status -> {
+                status.setCurrentStatus(vehicle.getStatus());
+                updateVehicleStatus(status);
+            });
+        }
+        return saved;
     }
 
     @Override
@@ -155,12 +166,43 @@ public class VehicleServiceImpl implements VehicleService {
         if (maintenance.getMaintenanceStatus() == null) {
             maintenance.setMaintenanceStatus(1);
         }
-        return vehicleMaintenanceRepository.save(maintenance);
+        VehicleMaintenance saved = vehicleMaintenanceRepository.save(maintenance);
+        Long reporterId = saved.getReporterId();
+        if (reporterId != null) {
+            String title = "报修已提交";
+            String content = "我们已收到您的车辆报修，工单编号：" + saved.getMaintenanceId() + "。";
+            messageService.createUserMessage(reporterId, title, content);
+        }
+        return saved;
     }
 
     @Override
     public VehicleMaintenance updateMaintenanceRecord(VehicleMaintenance maintenance) {
-        return vehicleMaintenanceRepository.save(maintenance);
+        Integer prevStatus = null;
+        Long reporterId = null;
+        Long maintenanceId = maintenance == null ? null : maintenance.getMaintenanceId();
+        if (maintenanceId != null) {
+            VehicleMaintenance existing = vehicleMaintenanceRepository.findById(maintenanceId).orElse(null);
+            if (existing != null) {
+                prevStatus = existing.getMaintenanceStatus();
+                reporterId = existing.getReporterId();
+            }
+        }
+
+        VehicleMaintenance saved = vehicleMaintenanceRepository.save(maintenance);
+        Integer nextStatus = saved.getMaintenanceStatus();
+        if (reporterId != null && nextStatus != null && (prevStatus == null || !nextStatus.equals(prevStatus))) {
+            String title = "报修进度更新";
+            String statusText = switch (nextStatus) {
+                case 1 -> "待维修";
+                case 2 -> "维修中";
+                case 3 -> "已完成";
+                default -> "处理中";
+            };
+            String content = "您的报修工单状态已更新为：" + statusText + "。工单编号：" + saved.getMaintenanceId() + "。";
+            messageService.createUserMessage(reporterId, title, content);
+        }
+        return saved;
     }
 
     @Override

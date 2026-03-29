@@ -1,0 +1,77 @@
+/* pages/userInfo/repair/repair.wxss */
+page {
+  background-color: #f3f4f6;
+}
+
+.repairPage {
+  padding: 24rpx 20rpx;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx 20rpx;
+  box-shadow: 0 8rpx 20rpx rgba(15, 23, 42, 0.08);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 18rpx;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #eef2f7;
+}
+
+.textarea-row {
+  align-items: flex-start;
+}
+
+.label {
+  width: 140rpx;
+  color: #6b7280;
+  font-size: 26rpx;
+  flex-shrink: 0;
+}
+
+.input,
+.picker,
+.textarea {
+  flex: 1;
+  font-size: 26rpx;
+  color: #111827;
+}
+
+.picker {
+  padding: 8rpx 0;
+}
+
+.input {
+  padding: 8rpx 0;
+}
+
+.textarea {
+  min-height: 140rpx;
+  padding: 8rpx 0;
+}
+
+.input-placeholder {
+  color: #9aa0a6;
+  font-size: 26rpx;
+}
+
+.submit-btn {
+  margin-top: 24rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 999rpx;
+  border: 0;
+  color: #ffffff;
+  font-size: 28rpx;
+  background: linear-gradient(135deg, #2f88ff 0%, #0d6ee9 100%);
+}

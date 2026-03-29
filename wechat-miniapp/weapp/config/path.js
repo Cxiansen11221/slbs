@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const path={
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const path={
   //鐢ㄦ埛
   wechatLogin:'api/user/login',
   getLoginData:'api/user/getLoginData',
@@ -61,7 +61,10 @@
   countViewed:'api/viewed/count',
 
   //鍥剧墖
-  findAllPic:'pic/findAllJson'
+  findAllPic:'pic/findAllJson',
+
+  //车辆报修
+  createMaintenance:'api/vehicle/maintenance/create'
 }
 
 module.exports={

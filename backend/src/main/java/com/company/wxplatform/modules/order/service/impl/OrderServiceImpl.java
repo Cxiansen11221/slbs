@@ -10,6 +10,7 @@ import com.company.wxplatform.modules.order.repository.TakeReturnRecordRepositor
 import com.company.wxplatform.modules.order.service.OrderService;
 import com.company.wxplatform.modules.user.repository.UserRepository;
 import com.company.wxplatform.modules.vehicle.repository.VehicleRepository;
+import com.company.wxplatform.modules.vehicle.repository.VehicleStatusRepository;
 import com.company.wxplatform.modules.vehicle.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +39,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private VehicleStatusRepository vehicleStatusRepository;
 
     @Autowired
     private VehicleService vehicleService;
@@ -100,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCancelReason(cancelReason);
         order.setCancelTime(new Date());
         orderRepository.save(order);
+        updateVehicleStatus(order.getVehicleId(), 1);
     }
 
     @Override
@@ -183,6 +188,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setActualPayAmount(payAmount);
         orderRepository.save(order);
+        updateVehicleStatus(order.getVehicleId(), 2);
 
         OrderPayment entity = orderPaymentRepository.findByOrderId(orderId).orElse(new OrderPayment());
         entity.setOrderId(orderId);
@@ -209,8 +215,7 @@ public class OrderServiceImpl implements OrderService {
 
         record.setOrderId(orderId);
         takeReturnRecordRepository.save(record);
-
-        vehicleService.updateVehicleStatus(null);
+        updateVehicleStatus(order.getVehicleId(), 2);
 
         return order;
     }
@@ -239,8 +244,7 @@ public class OrderServiceImpl implements OrderService {
         existingRecord.setReturnInspector(record.getReturnInspector());
         existingRecord.setReturnNote(record.getReturnNote());
         takeReturnRecordRepository.save(existingRecord);
-
-        vehicleService.updateVehicleStatus(null);
+        updateVehicleStatus(order.getVehicleId(), 1);
 
         return order;
     }
@@ -267,6 +271,7 @@ public class OrderServiceImpl implements OrderService {
         payment.setRefundCompleteTime(new Date());
         payment.setRefundStatus(3);
         orderPaymentRepository.save(payment);
+        updateVehicleStatus(order.getVehicleId(), 1);
 
         return payment;
     }
@@ -287,5 +292,19 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         throw new BusinessException("Failed to generate order code, please retry");
+    }
+
+    private void updateVehicleStatus(Long vehicleId, int status) {
+        if (vehicleId == null) {
+            return;
+        }
+        vehicleRepository.findById(vehicleId).ifPresent(vehicle -> {
+            vehicle.setStatus(status);
+            vehicleRepository.save(vehicle);
+        });
+        vehicleStatusRepository.findByVehicleId(vehicleId).ifPresent(vehicleStatus -> {
+            vehicleStatus.setCurrentStatus(status);
+            vehicleService.updateVehicleStatus(vehicleStatus);
+        });
     }
 }

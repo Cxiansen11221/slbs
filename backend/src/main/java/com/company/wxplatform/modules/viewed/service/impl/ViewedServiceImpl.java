@@ -55,10 +55,10 @@ public class ViewedServiceImpl implements ViewedService {
             }
             Vehicle vehicle = vehicleOpt.get();
             VehicleStatus status = vehicleStatusRepository.findByVehicleId(vehicle.getVehicleId()).orElse(null);
-            Double hourPrice = 0D;
+            Double hourPrice = vehicle.getHourlyPrice() != null ? vehicle.getHourlyPrice() : resolveHourlyPrice(vehicle.getVehicleType());
             Double monthPrice = hourPrice * 24 * 30;
-            String region = status == null ? "" : safe(status.getCurrentLocation());
-            String address = status == null ? "Address pending" : safe(status.getCurrentLocation());
+            String region = status == null ? "附近网点" : safe(status.getCurrentLocation());
+            String address = status == null ? "地址待补充" : safe(status.getCurrentLocation());
             String distance = vehicle.getRangeMileage() == null ? "--" : String.valueOf(vehicle.getRangeMileage());
             result.add(new ViewedItemVO(
                     vehicle.getVehicleId(),
@@ -88,12 +88,22 @@ public class ViewedServiceImpl implements ViewedService {
     }
 
     private String mapVehicleType(Integer vehicleType) {
-        if (vehicleType == null) return "Standard";
+        if (vehicleType == null) return "标准型";
         return switch (vehicleType) {
-            case 1 -> "Standard";
-            case 2 -> "Comfort";
-            case 3 -> "Long range";
-            default -> "Standard";
+            case 1 -> "标准型";
+            case 2 -> "轻享型";
+            case 3 -> "长续航";
+            default -> "标准型";
+        };
+    }
+
+    private Double resolveHourlyPrice(Integer vehicleType) {
+        if (vehicleType == null) return 8.0;
+        return switch (vehicleType) {
+            case 1 -> 8.0;
+            case 2 -> 10.0;
+            case 3 -> 12.0;
+            default -> 9.0;
         };
     }
 
@@ -101,4 +111,3 @@ public class ViewedServiceImpl implements ViewedService {
         return s == null ? "" : s;
     }
 }
-

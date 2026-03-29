@@ -36,6 +36,16 @@ const routes: RouteRecordRaw[] = [
         path: "deposits",
         name: "deposits",
         component: () => import("@/views/deposit/DepositListView.vue")
+      },
+      {
+        path: "maintenance",
+        name: "maintenance",
+        component: () => import("@/views/maintenance/MaintenanceListView.vue")
+      },
+      {
+        path: "content",
+        name: "content",
+        component: () => import("@/views/content/AnnouncementView.vue")
       }
     ]
   }
@@ -58,4 +68,3 @@ router.beforeEach((to) => {
 });
 
 export default router;
-

@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const api = require('../../config/api');
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const api = require('../../config/api');
 
 Page({
   data: {
@@ -112,7 +112,8 @@ Page({
       brand: keyword
     }).then((res) => {
       const list = Array.isArray(res.data) ? res.data : [];
-      const mapped = list.map((item) => ({
+      const available = list.filter((item) => Number(item.status || 0) === 1);
+      const mapped = available.map((item) => ({
         ...item,
         brand: item.brand || 'E-Bike',
         model: item.model || '-',

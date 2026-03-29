@@ -20,17 +20,13 @@
           <el-input v-model="searchForm.relatedOrderId" placeholder="请输入订单ID" />
         </el-form-item>
         <el-form-item label="押金类型">
-          <el-select v-model="searchForm.depositType" placeholder="请选择押金类型" clearable>
-            <el-option label="车辆押金" :value="1" />
-            <el-option label="违章押金" :value="2" />
+          <el-select v-model="searchForm.depositType" class="status-select" :placeholder="'\u8bf7\u9009\u62e9\u62bc\u91d1\u7c7b\u578b'" clearable>
+            <el-option v-for="item in depositTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="状态" style="margin-right:10px;">
-          <el-select v-model="searchForm.depositStatus" placeholder="请选择状态" clearable>
-            <el-option label="已缴纳" :value="1" />
-            <el-option label="已冻结" :value="2" />
-            <el-option label="已退还" :value="3" />
-            <el-option label="部分退还" :value="4" />
+          <el-select v-model="searchForm.depositStatus" class="status-select" :placeholder="'\u8bf7\u9009\u62e9\u72b6\u6001'" clearable>
+            <el-option v-for="item in depositStatusOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -168,6 +164,18 @@ const searchForm = reactive({
   depositType: undefined as undefined | number,
   depositStatus: undefined as undefined | number
 });
+
+const depositTypeOptions = [
+  { label: '\u8f66\u8f86\u62bc\u91d1', value: 1 },
+  { label: '\u8fdd\u7ae0\u62bc\u91d1', value: 2 }
+];
+
+const depositStatusOptions = [
+  { label: '\u5df2\u7f34\u7eb3', value: 1 },
+  { label: '\u5df2\u51bb\u7ed3', value: 2 },
+  { label: '\u5df2\u9000\u8fd8', value: 3 },
+  { label: '\u90e8\u5206\u9000\u8fd8', value: 4 }
+];
 
 const depositList = ref<any[]>([]);
 const allDepositList = ref<any[]>([]);
@@ -403,5 +411,9 @@ function resetDepositForm() {
 .detail-section h4 {
   margin: 0 0 10px;
   color: #334155;
+}
+
+.status-select {
+  width: 120px;
 }
 </style>

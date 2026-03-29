@@ -8,6 +8,8 @@
         <RouterLink to="/vehicles">车辆管理</RouterLink>
         <RouterLink to="/orders">订单管理</RouterLink>
         <RouterLink to="/deposits">押金管理</RouterLink>
+              <RouterLink to="/content">{{ "公告管理" }}</RouterLink>
+              <RouterLink to="/maintenance">{{ "\u7ef4\u4fee\u7ba1\u7406" }}</RouterLink>
       </nav>
     </aside>
     <main class="main">

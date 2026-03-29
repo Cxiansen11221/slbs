@@ -20,11 +20,8 @@
           <el-input v-model="searchForm.brand" placeholder="请输入品牌" />
         </el-form-item>
         <el-form-item label="状态" style="margin-right:10px;">
-          <el-select v-model="searchForm.status" placeholder="请选择状态" clearable>
-            <el-option label="可租" :value="1" />
-            <el-option label="已租" :value="2" />
-            <el-option label="维修中" :value="3" />
-            <el-option label="报废" :value="4" />
+          <el-select v-model="searchForm.status" class="status-select" :placeholder="'\u8bf7\u9009\u62e9\u72b6\u6001'" clearable>
+            <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -101,6 +98,15 @@
             <el-option label="四轮" :value="3" />
           </el-select>
         </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="form.status" :placeholder="'\u8bf7\u9009\u62e9\u72b6\u6001'">
+            <el-option label="可租" :value="1" />
+            <el-option label="已租" :value="2" />
+            <el-option label="维修中" :value="3" />
+            <el-option label="报废" :value="4" />
+            <el-option label="待清洁" :value="5" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="租金(元/小时)" prop="hourlyPrice">
           <el-input-number v-model="form.hourlyPrice" :min="0" :precision="2" :step="0.5" />
         </el-form-item>
@@ -139,6 +145,14 @@ const searchForm = reactive({
   status: undefined as undefined | number
 });
 
+const statusOptions = [
+  { label: '\u53ef\u79df', value: 1 },
+  { label: '\u5df2\u79df', value: 2 },
+  { label: '\u7ef4\u4fee\u4e2d', value: 3 },
+  { label: '\u62a5\u5e9f', value: 4 },
+  { label: '\u5f85\u6e05\u6d01', value: 5 }
+];
+
 const vehicleList = ref<any[]>([]);
 const allVehicleList = ref<any[]>([]);
 
@@ -171,7 +185,8 @@ const rules = {
   vin: [{ required: true, message: '请输入车架号', trigger: 'blur' }],
   brand: [{ required: true, message: '请输入品牌', trigger: 'blur' }],
   model: [{ required: true, message: '请输入型号', trigger: 'blur' }],
-  vehicleType: [{ required: true, message: '请选择类型', trigger: 'change' }],
+  vehicleType: [{ required: true, message: '\u8bf7\u9009\u62e9\u7c7b\u578b', trigger: 'change' }],
+  status: [{ required: true, message: '\u8bf7\u9009\u62e9\u72b6\u6001', trigger: 'change' }],
   hourlyPrice: [{ required: true, message: '请输入租金', trigger: 'blur' }]
 };
 
@@ -259,7 +274,7 @@ async function handleSubmit() {
       batteryCapacity: Number(form.batteryCapacity || 0),
       rangeMileage: Number(form.rangeMileage || 0),
       hourlyPrice: Number(form.hourlyPrice || 0),
-      status: 1
+      status: Number(form.status || 1)
     };
 
     try {
@@ -328,6 +343,7 @@ function resetVehicleForm() {
   form.brand = '';
   form.model = '';
   form.vehicleType = 1;
+  form.status = 1;
   form.batteryType = 1;
   form.batteryCapacity = 0;
   form.rangeMileage = 0;
@@ -345,5 +361,9 @@ function resetVehicleForm() {
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
+}
+
+.status-select {
+  width: 160px;
 }
 </style>

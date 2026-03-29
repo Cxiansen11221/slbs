@@ -9,8 +9,8 @@
       <image class="bikePic" src="{{item.picUrl}}" mode="aspectFill"></image>
       <view class="bikeInfo">
         <view class="row">
-          <text class="label">车型</text>
-          <text class="value">{{item.bikeType}}</text>
+          <text class="label">车辆名称</text>
+          <text class="value name-value">{{item.vehicleName}}</text>
         </view>
         <view class="row">
           <text class="label">短租价格</text>

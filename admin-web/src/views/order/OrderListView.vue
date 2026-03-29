@@ -20,13 +20,8 @@
           <el-input v-model="searchForm.userId" placeholder="请输入用户ID" />
         </el-form-item>
         <el-form-item label="状态" style="margin-right:10px;">
-          <el-select v-model="searchForm.orderStatus" placeholder="请选择状态" clearable>
-            <el-option label="待支付" :value="1" />
-            <el-option label="已支付" :value="2" />
-            <el-option label="租赁中" :value="3" />
-            <el-option label="已完成" :value="4" />
-            <el-option label="已取消" :value="5" />
-            <el-option label="已退款" :value="6" />
+          <el-select v-model="searchForm.orderStatus" class="status-select" :placeholder="'\u8bf7\u9009\u62e9\u72b6\u6001'" clearable>
+            <el-option v-for="item in orderStatusOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -203,6 +198,16 @@ const searchForm = reactive({
   userId: '',
   orderStatus: undefined as undefined | number
 });
+
+const orderStatusOptions = [
+  { label: '\u5f85\u652f\u4ed8', value: 1 },
+  { label: '\u5df2\u652f\u4ed8', value: 2 },
+  { label: '\u79df\u8d41\u4e2d', value: 3 },
+  { label: '\u5df2\u5b8c\u6210', value: 4 },
+  { label: '\u5df2\u53d6\u6d88', value: 5 },
+  { label: '\u5df2\u9000\u6b3e', value: 6 },
+  { label: '\u5f02\u5e38', value: 7 }
+];
 
 const orderList = ref<any[]>([]);
 const allOrderList = ref<any[]>([]);
@@ -529,5 +534,9 @@ function resetOrderForm() {
 .detail-section h4 {
   margin: 0 0 10px;
   color: #334155;
+}
+
+.status-select {
+  width: 160px;
 }
 </style>
