@@ -90,6 +90,12 @@ public class UserServiceImpl implements UserService {
         if (user.getAuthStatus() == null) {
             user.setAuthStatus(0);
         }
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            user.setPassword(md5Encrypt(user.getPassword()));
+        }
+        if (user.getPhone() != null && !user.getPhone().isBlank()) {
+            user.setPhone(base64Encode(user.getPhone()));
+        }
         return userRepository.save(user);
     }
 
@@ -145,5 +151,9 @@ public class UserServiceImpl implements UserService {
     private String formatDate(Date date) {
         if (date == null) return null;
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
+    }
+
+    private String base64Encode(String value) {
+        return java.util.Base64.getEncoder().encodeToString(value.getBytes(java.nio.charset.StandardCharsets.UTF_8));
     }
 }

@@ -9,6 +9,7 @@ import com.company.wxplatform.modules.user.vo.UserSummaryVO;
 import com.company.wxplatform.modules.wechat.dto.WxLoginRequest;
 import com.company.wxplatform.modules.wechat.service.WxAuthService;
 import com.company.wxplatform.modules.wechat.vo.WxLoginVO;
+import com.company.wxplatform.infrastructure.security.TokenService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
@@ -37,10 +38,12 @@ public class UserController {
 
     private final UserService userService;
     private final WxAuthService wxAuthService;
+    private final TokenService tokenService;
 
-    public UserController(UserService userService, WxAuthService wxAuthService) {
+    public UserController(UserService userService, WxAuthService wxAuthService, TokenService tokenService) {
         this.userService = userService;
         this.wxAuthService = wxAuthService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/getLoginData")
@@ -87,9 +90,9 @@ public class UserController {
             return ApiResponse.error("Invalid username or password");
         }
 
-        String raw = user.getUsername() + ":USER:" + System.currentTimeMillis();
-        String token = Base64.getEncoder().encodeToString(raw.getBytes(StandardCharsets.UTF_8));
-        LoginVO loginVO = new LoginVO(token, 7200, "USER", user.getUsername());
+        String subject = user.getUsername() + ":USER";
+        String token = tokenService.generateToken(subject);
+        LoginVO loginVO = new LoginVO(token, tokenService.getTokenExpireSeconds(), "USER", user.getUsername());
         return ApiResponse.success("Login success", loginVO);
     }
 
@@ -244,7 +247,20 @@ public class UserController {
 
     @PostMapping("/register")
     public ApiResponse<User> register(@RequestBody User user) {
-        return ApiResponse.success("Register success", userService.register(user));
+        if (user == null || user.getUsername() == null || user.getUsername().trim().isEmpty()
+                || user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            return ApiResponse.error("Username and password are required");
+        }
+        String username = user.getUsername().trim();
+        if (userService.getUserByUsername(username).isPresent()) {
+            return ApiResponse.error("Username already exists");
+        }
+        user.setUsername(username);
+        User saved = userService.register(user);
+        if (saved != null) {
+            saved.setPassword(null);
+        }
+        return ApiResponse.success("Register success", saved);
     }
 
     @PutMapping("/{id}")

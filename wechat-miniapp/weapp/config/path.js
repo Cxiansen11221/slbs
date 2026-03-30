@@ -1,10 +1,11 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const path={
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const path={
   //鐢ㄦ埛
   wechatLogin:'api/user/login',
   getLoginData:'api/user/getLoginData',
   getUserNumber:'wechat/getUserNumber',
   userSave:'api/user/wechatSave',
   login:'api/user/auth/login',
+  registerUser:'api/user/register',
   getBaseInfoCount:'api/message/getBaseInfoCount',
 
   //杞﹁締淇℃伅

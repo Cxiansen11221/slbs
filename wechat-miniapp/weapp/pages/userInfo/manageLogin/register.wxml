@@ -1,0 +1,58 @@
+<!--pages/userInfo/manageLogin/register.wxml-->
+<view class="loginPage">
+  <view class="systemInfo">
+    <view class="systemTitle">{{systemName}}</view>
+    <view class="systemLogo">
+      <image src="{{picLocal+systemLogo}}" wx:if="{{systemLogo}}"></image>
+    </view>
+  </view>
+  <view class="form">
+    <i-input value="{{ username }}" type="text" title="{{i18n.account}}" placeholder="{{i18n.accountPlaceholder}}" maxlength="20" bind:change="usernameChange" i-class="loginInput"/>
+    <view class="i-class i-cell i-input loginInput password-field">
+      <view class="i-cell-hd i-input-title">{{i18n.password}}</view>
+      <input
+        class="i-input-input i-cell-bd password-input"
+        type="text"
+        password="{{!showPassword}}"
+        placeholder="{{i18n.passwordPlaceholder}}"
+        placeholder-class="i-input-placeholder"
+        maxlength="20"
+        value="{{ password }}"
+        bindinput="passwordInput"
+      />
+      <image
+        class="password-eye"
+        src="{{ showPassword ? eyeOpenIcon : eyeClosedIcon }}"
+        bindtap="togglePassword"
+        mode="aspectFit"
+      />
+    </view>
+    <view class="i-class i-cell i-input loginInput password-field">
+      <view class="i-cell-hd i-input-title">{{i18n.confirmPassword}}</view>
+      <input
+        class="i-input-input i-cell-bd password-input"
+        type="text"
+        password="{{!showConfirm}}"
+        placeholder="{{i18n.confirmPasswordPlaceholder}}"
+        placeholder-class="i-input-placeholder"
+        maxlength="20"
+        value="{{ confirmPassword }}"
+        bindinput="confirmPasswordInput"
+      />
+      <image
+        class="password-eye"
+        src="{{ showConfirm ? eyeOpenIcon : eyeClosedIcon }}"
+        bindtap="toggleConfirm"
+        mode="aspectFit"
+      />
+    </view>
+  </view>
+  <view class="funBtn">
+    <button class="wx-auth-login-btn login-submit-btn" bindtap="register">{{i18n.register}}</button>
+  </view>
+  <view class="wechatLogin">
+    <button class="wx-auth-login-btn" bindtap="goLogin">{{i18n.backLogin}}</button>
+  </view>
+  <view class="welcome-box">{{i18n.welcome}}</view>
+  <view class="tip"></view>
+</view>

@@ -17,7 +17,7 @@
       </el-table-column>
       <el-table-column label="状态" width="120">
         <template #default="scope">
-          {{ getStatusText(scope.row.status) }}
+          <el-tag :type="getStatusType(scope.row)">{{ getStatusText(scope.row) }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="lastLoginTime" label="登录时间" width="200" />
@@ -46,15 +46,22 @@ function getUserTypeText(userType: string): string {
 }
 
 // 将状态转换为中文
-function getStatusText(status: string): string {
-  switch (status) {
-    case 'active':
-      return '活跃';
-    case 'inactive':
-      return '非活跃';
-    default:
-      return status;
+function getStatusText(row: UserSummary): string {
+  const lastLogin = row.lastLoginTime ? new Date(row.lastLoginTime).getTime() : 0;
+  const now = Date.now();
+  if (lastLogin && now - lastLogin <= 5 * 60 * 1000) {
+    return "\u5728\u7ebf";
   }
+  return "\u79bb\u7ebf";
+}
+
+function getStatusType(row: UserSummary): "success" | "info" {
+  const lastLogin = row.lastLoginTime ? new Date(row.lastLoginTime).getTime() : 0;
+  const now = Date.now();
+  if (lastLogin && now - lastLogin <= 5 * 60 * 1000) {
+    return "success";
+  }
+  return "info";
 }
 
 async function loadUsers() {

@@ -11,6 +11,7 @@
     "pages/apply/handle/handleViewApply",
     "pages/userInfo/message/message",
     "pages/userInfo/manageLogin/login",
+    "pages/userInfo/manageLogin/register",
     "pages/userInfo/repair/repair",
     "pages/apply/handle/handleRentApply",
     "pages/apply/submitOrder/submitOrder",
@@ -21,7 +22,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#007AFF",
-    "navigationBarTitleText": "\u79df\u8f66",
+    "navigationBarTitleText": "租车",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
@@ -31,19 +32,19 @@
         "iconPath": "images/icons/tabbar/home.png",
         "selectedIconPath": "images/icons/tabbar/home-active.png",
         "pagePath": "pages/index/index",
-        "text": "\u9996\u9875"
+        "text": "首页"
       },
       {
         "iconPath": "images/icons/tabbar/apply.png",
         "selectedIconPath": "images/icons/tabbar/apply-active.png",
         "pagePath": "pages/apply/apply",
-        "text": "\u5ba2\u670d"
+        "text": "客服"
       },
       {
         "iconPath": "images/icons/tabbar/my.png",
         "selectedIconPath": "images/icons/tabbar/my-active.png",
         "pagePath": "pages/userInfo/myInfo",
-        "text": "\u6211\u7684"
+        "text": "我的"
       }
     ]
   },

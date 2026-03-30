@@ -5,6 +5,17 @@ import path from '../../../config/path';
 
 Page({
   data: {
+    i18n: {
+      account: '\u8d26\u6237',
+      accountPlaceholder: '\u8bf7\u8f93\u5165\u8d26\u6237',
+      password: '\u5bc6\u7801',
+      passwordPlaceholder: '\u8bf7\u8f93\u5165\u5bc6\u7801',
+      login: '\u767b\u5f55',
+      registerUser: '\u6ce8\u518c\u7528\u6237',
+      welcome: '\u6b22\u8fce\u4f7f\u7528\u6613\u79df\u8f66',
+      navTitle: '\u79df\u8f66'
+    },
+
     picLocal: app.globalData.picLocal,
     systemName: '易租车平台',
     systemLogo: '',
@@ -16,10 +27,15 @@ Page({
   },
 
   onLoad() {
+    wx.setNavigationBarTitle({ title: this.data.i18n.navTitle });
     this.setData({
       systemName: '易租车平台',
       systemLogo: ''
     });
+  },
+
+  goRegister() {
+    wx.navigateTo({ url: '/pages/userInfo/manageLogin/register' });
   },
 
   login() {
@@ -33,6 +49,18 @@ Page({
       wx.setStorageSync('token', token);
       wx.setStorageSync('loginUsername', this.data.loginName);
       wx.setStorageSync('isLogin', true);
+      wx.removeStorageSync('wxProfile');
+      api.post(path.path.getLoginData, { username: this.data.loginName }).then((userRes) => {
+        const userData = (userRes && userRes.data) ? userRes.data : null;
+        if (userData) {
+          wx.setStorageSync('loginData', userData);
+        }
+        wx.showToast({ title: '\u767b\u5f55\u6210\u529f', icon: 'success' });
+        wx.switchTab({ url: '/pages/userInfo/myInfo' });
+      }).catch(() => {
+        wx.showToast({ title: '\u767b\u5f55\u6210\u529f', icon: 'success' });
+        wx.switchTab({ url: '/pages/userInfo/myInfo' });
+      });
       wx.showToast({ title: '登录成功', icon: 'success' });
       wx.switchTab({ url: '/pages/userInfo/myInfo' });
     }).catch(() => this.showLoginErrorModal());
@@ -166,6 +194,18 @@ Page({
 
             wx.setStorageSync('token', token);
             wx.setStorageSync('isLogin', true);
+      wx.removeStorageSync('wxProfile');
+      api.post(path.path.getLoginData, { username: this.data.loginName }).then((userRes) => {
+        const userData = (userRes && userRes.data) ? userRes.data : null;
+        if (userData) {
+          wx.setStorageSync('loginData', userData);
+        }
+        wx.showToast({ title: '\u767b\u5f55\u6210\u529f', icon: 'success' });
+        wx.switchTab({ url: '/pages/userInfo/myInfo' });
+      }).catch(() => {
+        wx.showToast({ title: '\u767b\u5f55\u6210\u529f', icon: 'success' });
+        wx.switchTab({ url: '/pages/userInfo/myInfo' });
+      });
             wx.setStorageSync('wxProfile', {
               nickName: userInfo.nickName || '',
               avatarUrl: userInfo.avatarUrl || ''

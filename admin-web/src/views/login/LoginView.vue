@@ -57,6 +57,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const loading = ref(false);
 const formRef = ref<FormInstance>();
+const FIRST_VISIT_KEY = "admin_first_visit_cleared";
 
 const form = reactive({
   username: "admin",
@@ -94,7 +95,11 @@ async function handleSubmit() {
 }
 
 onMounted(() => {
-  // 检查是否已登录
+  if (!sessionStorage.getItem(FIRST_VISIT_KEY)) {
+    authStore.logout();
+    sessionStorage.setItem(FIRST_VISIT_KEY, "1");
+  }
+  // ???????????
   if (authStore.token) {
     router.push({ name: "dashboard" });
   }
