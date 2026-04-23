@@ -1,0 +1,14 @@
+<view class="page">
+  <map
+    class="map"
+    latitude="{{center.latitude}}"
+    longitude="{{center.longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    bindmarkertap="onMarkerTap"
+    show-location="{{showLocation}}"
+    enable-scroll="true"
+    enable-zoom="true"
+  ></map>
+  <view class="address" wx:if="{{address}}">{{address}}</view>
+</view>

@@ -4,6 +4,7 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/userInfo/myInfo",
+    "pages/index/mapPreview/mapPreview",
     "pages/index/recommend/recommend",
     "pages/index/bikeInfo/bikeInfo",
     "pages/apply/apply",
@@ -51,6 +52,11 @@
   "networkTimeout": {
     "request": 10000,
     "downloadFile": 10000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于在首页地图中显示附近可租车辆和您的当前位置"
+    }
   },
   "sitemapLocation": "sitemap.json"
 }

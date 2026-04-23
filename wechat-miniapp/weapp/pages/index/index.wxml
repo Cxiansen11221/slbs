@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<view class="container">
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<view class="container">
   <view class="notice-wrap">
     <view class="section-head">
     </view>
@@ -36,6 +36,31 @@
       bindconfirm="onSearch"
     />
     <button class="search-btn" bindtap="onSearch">{{uiText.searchBtn}}</button>
+  </view>
+
+  <view class="map-wrap">
+    <view class="section-head">
+      <text class="section-title">{{uiText.mapTitle}}</text>
+      <text class="section-sub">{{mapSummaryText}}</text>
+    </view>
+    <view class="map-card">
+      <map
+        wx:if="{{!mapLoading}}"
+        class="vehicle-map"
+        latitude="{{mapCenter.latitude}}"
+        longitude="{{mapCenter.longitude}}"
+        scale="{{mapScale}}"
+        markers="{{mapMarkers}}"
+        bindmarkertap="onMapMarkerTap"
+        bindtap="openMapPreview"
+        show-location="{{hasUserLocation}}"
+        enable-scroll="true"
+        enable-zoom="true"
+      ></map>
+      <view wx:else class="map-empty">{{uiText.mapLoading}}</view>
+      <view wx:if="{{!mapMarkers.length}}" class="map-tip-empty">{{uiText.mapEmpty}}</view>
+      <view wx:if="{{mapAddress}}" class="map-chip">{{mapAddress}}</view>
+    </view>
   </view>
 
   <view class="nearby-wrap">

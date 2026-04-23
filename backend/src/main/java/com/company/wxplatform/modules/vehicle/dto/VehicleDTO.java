@@ -17,6 +17,9 @@ public class VehicleDTO {
     private Integer status;
     private Integer batteryLevel;
     private Double rangeMileage;
+    private Double latitude;
+    private Double longitude;
+    private String location;
 
     public VehicleDTO(Vehicle vehicle, VehicleStatus status) {
         this.vehicleId = vehicle.getVehicleId();
@@ -34,6 +37,9 @@ public class VehicleDTO {
         if (status != null) {
             this.status = status.getCurrentStatus();
             this.batteryLevel = status.getBatteryPercentage() != null ? status.getBatteryPercentage() : 100;
+            this.latitude = status.getLatitude();
+            this.longitude = status.getLongitude();
+            this.location = status.getCurrentLocation();
         } else {
             this.status = 1;
             this.batteryLevel = 100;
@@ -154,5 +160,29 @@ public class VehicleDTO {
 
     public void setRangeMileage(Double rangeMileage) {
         this.rangeMileage = rangeMileage;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

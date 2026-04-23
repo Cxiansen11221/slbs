@@ -1,4 +1,24 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const api = require('../../config/api');
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿const api = require('../../config/api');
+
+const AMAP_KEY = 'b5612a04cab36a03202bc256f90083f2';
+const DEFAULT_CENTER = {
+  latitude: 23.11444,
+  longitude: 113.84722
+};
+const EXTRA_VEHICLE_MARKERS = [
+  {
+    id: -101,
+    latitude: 23.1182,
+    longitude: 113.8516,
+    title: '\u8865\u5145\u8f66\u8f86A'
+  },
+  {
+    id: -102,
+    latitude: 23.1109,
+    longitude: 113.8428,
+    title: '\u8865\u5145\u8f66\u8f86B'
+  }
+];
 
 Page({
   data: {
@@ -7,6 +27,9 @@ Page({
       more: '\u66f4\u591a',
       searchPlaceholder: '\u8f93\u5165\u8f66\u8f86\u7f16\u53f7\u6216\u54c1\u724c',
       searchBtn: '\u641c\u7d22',
+      mapTitle: '\u9644\u8fd1\u5730\u56fe',
+      mapLoading: '\u6b63\u5728\u52a0\u8f7d\u5730\u56fe\u4f4d\u7f6e...',
+      mapEmpty: '\u6682\u65e0\u53ef\u5c55\u793a\u7684\u8f66\u8f86\u70b9\u4f4d',
       nearbyTitle: '\u9644\u8fd1\u53ef\u79df\u8f66\u8f86',
       nearbySub: '\u70b9\u51fb\u5361\u7247\u67e5\u770b\u8be6\u60c5',
       vehicleNumberLabel: '\u7f16\u53f7',
@@ -73,12 +96,42 @@ Page({
     pageSize: 10,
     loading: false,
     hasMore: true,
-    loadError: ''
+    loadError: '',
+    mapLoading: true,
+    mapReady: false,
+    hasUserLocation: false,
+    mapScale: 12,
+    mapCenter: DEFAULT_CENTER,
+    userLocation: null,
+    mapAddress: '',
+    mapSummaryText: '\u6b63\u5728\u51c6\u5907\u5730\u56fe...',
+    mapMarkers: []
   },
 
   onLoad() {
+    // DevTools often has restricted/unstable access to external map services; skip to avoid "timeout" noise.
+    if (!this.isDevtools()) {
+      this.initMapLocation();
+    } else {
+      this.setData({
+        mapLoading: false,
+        mapReady: true,
+        hasUserLocation: false,
+        mapCenter: DEFAULT_CENTER,
+        mapSummaryText: '开发者工具环境：已跳过地图定位与逆地理请求'
+      });
+    }
     this.fetchHomeContent();
     this.fetchVehicles(true);
+  },
+
+  isDevtools() {
+    try {
+      const sys = wx.getSystemInfoSync();
+      return String((sys && sys.platform) || '').toLowerCase() === 'devtools';
+    } catch (e) {
+      return false;
+    }
   },
 
   onPullDownRefresh() {
@@ -117,6 +170,9 @@ Page({
         ...item,
         brand: item.brand || 'E-Bike',
         model: item.model || '-',
+        location: item.location || '',
+        latitude: this.toNumberOrNull(item.latitude),
+        longitude: this.toNumberOrNull(item.longitude),
         statusText: this.mapStatus(item.status),
         statusClass: this.mapStatusClass(item.status),
         batteryLevel: Number(item.batteryLevel || 0),
@@ -133,12 +189,198 @@ Page({
         loadError: ''
       });
       wx.setStorageSync('latestVehicleList', merged);
+      this.updateMapMarkers(merged);
     }).catch(() => {
       this.setData({
         loading: false,
         loadError: '\u6570\u636e\u52a0\u8f7d\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u540e\u7aef\u670d\u52a1\u548c\u7f51\u7edc'
       });
+      this.updateMapMarkers(reset ? [] : this.data.electricVehicleList);
     });
+  },
+
+  initMapLocation() {
+    wx.getSetting({
+      success: (settingRes) => {
+        const authSetting = settingRes && settingRes.authSetting ? settingRes.authSetting : {};
+        if (authSetting['scope.userLocation']) {
+          this.fetchCurrentLocation();
+          return;
+        }
+        wx.authorize({
+          scope: 'scope.userLocation',
+          success: () => {
+            this.fetchCurrentLocation();
+          },
+          fail: () => {
+            this.setData({
+              hasUserLocation: false,
+              mapCenter: DEFAULT_CENTER,
+              mapLoading: false,
+              mapSummaryText: '\u8bf7\u5f00\u542f\u5b9a\u4f4d\u6743\u9650\uff0c\u5730\u56fe\u5c06\u9ed8\u8ba4\u663e\u793a\u5f53\u524d\u4f4d\u7f6e'
+            });
+            this.updateMapMarkers(this.data.electricVehicleList);
+          }
+        });
+      },
+      fail: () => {
+        this.fetchCurrentLocation();
+      }
+    });
+  },
+
+  fetchCurrentLocation() {
+    wx.getLocation({
+      type: 'gcj02',
+      isHighAccuracy: true,
+      highAccuracyExpireTime: 5000,
+      success: (res) => {
+        const latitude = this.toNumberOrNull(res.latitude) || DEFAULT_CENTER.latitude;
+        const longitude = this.toNumberOrNull(res.longitude) || DEFAULT_CENTER.longitude;
+        this.setData({
+          hasUserLocation: true,
+          mapCenter: { latitude, longitude },
+          userLocation: { latitude, longitude },
+          mapLoading: false,
+          mapScale: 14
+        });
+        this.fetchMapAddress(latitude, longitude);
+        this.updateMapMarkers(this.data.electricVehicleList);
+      },
+      fail: () => {
+        this.setData({
+          hasUserLocation: false,
+          mapCenter: DEFAULT_CENTER,
+          userLocation: null,
+          mapLoading: false,
+          mapSummaryText: '\u65e0\u6cd5\u83b7\u53d6\u5f53\u524d\u4f4d\u7f6e\uff0c\u5df2\u5207\u6362\u4e3a\u9ed8\u8ba4\u5730\u56fe\u89c6\u56fe'
+        });
+        this.updateMapMarkers(this.data.electricVehicleList);
+      }
+    });
+  },
+
+  updateMapMarkers(list) {
+    const vehicles = Array.isArray(list) ? list : [];
+    const vehicleMarkers = vehicles
+      .filter((item) => item.latitude != null && item.longitude != null)
+      .map((item, index) => ({
+        id: Number(item.vehicleId || item.id || index + 1),
+        latitude: item.latitude,
+        longitude: item.longitude,
+        width: 30,
+        height: 36,
+        callout: {
+          content: `${item.brand} ${item.model}`.trim(),
+          color: '#0f172a',
+          fontSize: 12,
+          borderRadius: 10,
+          padding: 6,
+          bgColor: '#ffffff',
+          display: 'BYCLICK'
+        }
+      }));
+    const extraMarkers = EXTRA_VEHICLE_MARKERS.map((item) => ({
+      id: item.id,
+      latitude: item.latitude,
+      longitude: item.longitude,
+      width: 30,
+      height: 36,
+      callout: {
+        content: item.title,
+        color: '#0f172a',
+        fontSize: 12,
+        borderRadius: 10,
+        padding: 6,
+        bgColor: '#ffffff',
+        display: 'BYCLICK'
+      }
+    }));
+    const mapMarkers = vehicleMarkers.concat(extraMarkers);
+
+    let mapCenter = this.data.mapCenter;
+    if (!this.data.hasUserLocation && mapMarkers.length) {
+      mapCenter = {
+        latitude: mapMarkers[0].latitude,
+        longitude: mapMarkers[0].longitude
+      };
+    }
+
+    const mapSummaryText = mapMarkers.length
+      ? `\u5df2\u663e\u793a ${mapMarkers.length} \u8f86\u53ef\u79df\u8f66\u8f86\u70b9\u4f4d`
+      : (this.data.mapAddress || this.data.uiText.mapEmpty);
+
+    this.setData({
+      mapMarkers,
+      mapCenter,
+      mapReady: true,
+      mapSummaryText
+    });
+  },
+
+  fetchMapAddress(latitude, longitude) {
+    wx.request({
+      url: 'https://restapi.amap.com/v3/geocode/regeo',
+      method: 'GET',
+      timeout: 6000,
+      data: {
+        key: AMAP_KEY,
+        location: `${longitude},${latitude}`,
+        extensions: 'base'
+      },
+      success: (res) => {
+        const result = res && res.data;
+        const formattedAddress = result && result.regeocode ? result.regeocode.formatted_address : '';
+        if (!formattedAddress) return;
+        this.setData({
+          mapAddress: formattedAddress,
+          mapSummaryText: formattedAddress
+        });
+      },
+      fail: (err) => {
+        console.warn('AMap reverse geocode failed:', err);
+        if (!this.data.mapSummaryText || this.data.mapSummaryText === '\u6b63\u5728\u51c6\u5907\u5730\u56fe...') {
+          this.setData({
+            mapSummaryText: '\u5df2\u5b9a\u4f4d\uff0c\u53ef\u70b9\u51fb\u5730\u56fe\u67e5\u770b\u5468\u8fb9'
+          });
+        }
+      }
+    });
+  },
+
+  onMapMarkerTap(e) {
+    const markerId = e && e.detail ? Number(e.detail.markerId) : 0;
+    if (markerId < 0) {
+      wx.showToast({ title: '\u8fd9\u662f\u8865\u5145\u70b9\u4f4d', icon: 'none' });
+      return;
+    }
+    const target = (this.data.electricVehicleList || []).find((item) => Number(item.vehicleId || item.id) === markerId);
+    if (!target) return;
+    this.toBikeInfo({
+      currentTarget: {
+        dataset: {
+          id: target.vehicleId || target.id
+        }
+      }
+    });
+  },
+
+  openMapPreview() {
+    const center = this.data.userLocation || this.data.mapCenter || DEFAULT_CENTER;
+    wx.setStorageSync('indexMapPreviewData', {
+      center,
+      scale: this.data.mapScale || 14,
+      markers: this.data.mapMarkers || [],
+      address: this.data.mapAddress || this.data.mapSummaryText || ''
+    });
+    wx.navigateTo({
+      url: '/pages/index/mapPreview/mapPreview'
+    });
+  },
+
+  toNumberOrNull(value) {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
   },
 
   fetchHomeContent() {

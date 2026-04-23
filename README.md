@@ -40,8 +40,16 @@ Default: `http://localhost:5173`
 ### 3. Mini Program
 1. Open WeChat DevTools
 2. Import: `wechat-miniapp/weapp`
-3. Set request base URL: `http://localhost:8080`
-4. Build & run
+3. For simulator, use `http://localhost:8080`
+4. For real-device LAN testing, change mini-program base URL to your PC LAN IP, for example `http://192.168.2.230:8080`
+5. Make sure phone and PC are on the same Wi-Fi, backend is running, and Windows firewall allows port `8080`
+6. Build & run
+
+**Android USB (recommended when LAN is blocked)**
+- Enable Developer options + USB debugging on your phone
+- Connect phone via USB and allow debugging authorization
+- Install Android Platform Tools (adb), then run: `adb devices` and `adb reverse tcp:8080 tcp:8080`
+- Mini program base URL can use: `http://127.0.0.1:8080` (will be forwarded to your PC backend)
 
 ## API Examples
 - `POST /api/admin/auth/login`
