@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<view class="container">
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<view class="container">
   <view class="notice-wrap">
     <view class="section-head">
     </view>
@@ -43,7 +43,7 @@
       <text class="section-title">{{uiText.mapTitle}}</text>
       <text class="section-sub">{{mapSummaryText}}</text>
     </view>
-    <view class="map-card">
+    <view class="map-card" bindtap="openMapPreview">
       <map
         wx:if="{{!mapLoading}}"
         class="vehicle-map"
@@ -52,7 +52,6 @@
         scale="{{mapScale}}"
         markers="{{mapMarkers}}"
         bindmarkertap="onMapMarkerTap"
-        bindtap="openMapPreview"
         show-location="{{hasUserLocation}}"
         enable-scroll="true"
         enable-zoom="true"

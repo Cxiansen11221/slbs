@@ -201,8 +201,7 @@ page {
 
 .map-card {
   position: relative;
-  overflow: hidden;
-  border-radius: 20rpx;
+  /* Note: <map> is a native component; clipping (overflow:hidden + radius) can cause blank tiles on some devices. */
   background:
     radial-gradient(circle at top left, rgba(111, 191, 255, 0.22), transparent 36%),
     linear-gradient(160deg, #ffffff 0%, #eff6ff 100%);

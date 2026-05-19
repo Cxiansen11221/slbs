@@ -2,7 +2,9 @@
 import api from '../../../config/api';
 import path from '../../../config/path';
 
-const PLACEHOLDER_IMG = '/images/icons/tabbar/home-active.png';
+// Icon from Iconify (Material Design Icons): mdi:scooter-electric
+// Using a remote SVG avoids bundling new bitmap assets.
+const PLACEHOLDER_IMG = 'https://api.iconify.design/mdi/scooter-electric.svg?color=%23d11a2a&width=640&height=640';
 const VIEWED_KEY = 'viewedVehicleList';
 
 Page({

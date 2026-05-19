@@ -4,7 +4,7 @@ import api from '../../../config/api';
 import path from '../../../config/path';
 const { $Message } = require('../../../dist/base/index');
 
-const PLACEHOLDER_IMG = '/images/icons/tabbar/home-active.png';
+const PLACEHOLDER_IMG = 'https://api.iconify.design/mdi/scooter-electric.svg?color=%23d11a2a&width=640&height=640';
 
 Page({
   data: {

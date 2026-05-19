@@ -1,5 +1,7 @@
 package com.company.wxplatform.modules.vehicle.service.impl;
 
+import com.company.wxplatform.common.exception.BusinessException;
+import com.company.wxplatform.modules.message.service.MessageService;
 import com.company.wxplatform.modules.vehicle.dto.VehicleDTO;
 import com.company.wxplatform.modules.vehicle.entity.Vehicle;
 import com.company.wxplatform.modules.vehicle.entity.VehicleMaintenance;
@@ -8,10 +10,10 @@ import com.company.wxplatform.modules.vehicle.repository.VehicleMaintenanceRepos
 import com.company.wxplatform.modules.vehicle.repository.VehicleRepository;
 import com.company.wxplatform.modules.vehicle.repository.VehicleStatusRepository;
 import com.company.wxplatform.modules.vehicle.service.VehicleService;
-import com.company.wxplatform.modules.message.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -81,7 +83,9 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle existing = vehicleRepository.findById(vehicle.getVehicleId())
                 .orElseThrow(() -> new RuntimeException("Vehicle not found"));
         if (vehicle.getHourlyPrice() == null || vehicle.getHourlyPrice() <= 0) {
-            vehicle.setHourlyPrice(existing.getHourlyPrice() != null ? existing.getHourlyPrice() : resolveHourlyPrice(vehicle.getVehicleType()));
+            vehicle.setHourlyPrice(existing.getHourlyPrice() != null
+                    ? existing.getHourlyPrice()
+                    : resolveHourlyPrice(vehicle.getVehicleType()));
         }
         Vehicle saved = vehicleRepository.save(vehicle);
         if (vehicle.getStatus() != null) {
@@ -159,7 +163,11 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    @Transactional
     public VehicleMaintenance createMaintenanceRecord(VehicleMaintenance maintenance) {
+        if (maintenance == null || maintenance.getVehicleId() == null) {
+            throw new BusinessException("Vehicle id is required");
+        }
         if (maintenance.getReportTime() == null) {
             maintenance.setReportTime(new Date());
         }
@@ -167,6 +175,10 @@ public class VehicleServiceImpl implements VehicleService {
             maintenance.setMaintenanceStatus(1);
         }
         VehicleMaintenance saved = vehicleMaintenanceRepository.save(maintenance);
+
+        // New maintenance record means the vehicle should not be rentable.
+        updateVehicleStatusForMaintenance(saved.getVehicleId(), 3);
+
         Long reporterId = saved.getReporterId();
         if (reporterId != null) {
             String title = "报修已提交";
@@ -177,20 +189,41 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    @Transactional
     public VehicleMaintenance updateMaintenanceRecord(VehicleMaintenance maintenance) {
-        Integer prevStatus = null;
-        Long reporterId = null;
-        Long maintenanceId = maintenance == null ? null : maintenance.getMaintenanceId();
-        if (maintenanceId != null) {
-            VehicleMaintenance existing = vehicleMaintenanceRepository.findById(maintenanceId).orElse(null);
-            if (existing != null) {
-                prevStatus = existing.getMaintenanceStatus();
-                reporterId = existing.getReporterId();
+        if (maintenance == null || maintenance.getMaintenanceId() == null) {
+            throw new BusinessException("Maintenance record or id is missing");
+        }
+
+        Long maintenanceId = maintenance.getMaintenanceId();
+        VehicleMaintenance existing = vehicleMaintenanceRepository.findById(maintenanceId)
+                .orElseThrow(() -> new BusinessException("Maintenance record not found"));
+
+        Integer prevStatus = existing.getMaintenanceStatus();
+        Long reporterId = existing.getReporterId();
+
+        // Patch-style update to avoid overwriting existing fields with null from the admin form.
+        if (maintenance.getMaintenanceStatus() != null) existing.setMaintenanceStatus(maintenance.getMaintenanceStatus());
+        if (maintenance.getMaintenanceNote() != null) existing.setMaintenanceNote(maintenance.getMaintenanceNote());
+        if (maintenance.getMaintenanceCost() != null) existing.setMaintenanceCost(maintenance.getMaintenanceCost());
+        if (maintenance.getMaintenanceStaffId() != null) existing.setMaintenanceStaffId(maintenance.getMaintenanceStaffId());
+        if (maintenance.getMaintenanceStartTime() != null) existing.setMaintenanceStartTime(maintenance.getMaintenanceStartTime());
+        if (maintenance.getMaintenanceEndTime() != null) existing.setMaintenanceEndTime(maintenance.getMaintenanceEndTime());
+        if (maintenance.getReplacedParts() != null) existing.setReplacedParts(maintenance.getReplacedParts());
+
+        Integer nextStatus = existing.getMaintenanceStatus();
+        if (nextStatus != null) {
+            if (nextStatus == 2 && existing.getMaintenanceStartTime() == null) {
+                existing.setMaintenanceStartTime(new Date());
+            }
+            if (nextStatus == 3 && existing.getMaintenanceEndTime() == null) {
+                existing.setMaintenanceEndTime(new Date());
             }
         }
 
-        VehicleMaintenance saved = vehicleMaintenanceRepository.save(maintenance);
-        Integer nextStatus = saved.getMaintenanceStatus();
+        VehicleMaintenance saved = vehicleMaintenanceRepository.save(existing);
+        nextStatus = saved.getMaintenanceStatus();
+
         if (reporterId != null && nextStatus != null && (prevStatus == null || !nextStatus.equals(prevStatus))) {
             String title = "报修进度更新";
             String statusText = switch (nextStatus) {
@@ -202,6 +235,14 @@ public class VehicleServiceImpl implements VehicleService {
             String content = "您的报修工单状态已更新为：" + statusText + "。工单编号：" + saved.getMaintenanceId() + "。";
             messageService.createUserMessage(reporterId, title, content);
         }
+
+        // When status becomes "已完成" (3), set vehicle back to "可租" (1).
+        if (nextStatus != null && nextStatus == 3) {
+            updateVehicleStatusForMaintenance(saved.getVehicleId(), 1);
+        } else if (nextStatus != null && nextStatus == 2) {
+            updateVehicleStatusForMaintenance(saved.getVehicleId(), 3);
+        }
+
         return saved;
     }
 
@@ -215,6 +256,18 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleMaintenanceRepository.findAll(PageRequest.of(page - 1, size)).getContent();
     }
 
+    private void updateVehicleStatusForMaintenance(Long vehicleId, int status) {
+        if (vehicleId == null) return;
+        vehicleRepository.findById(vehicleId).ifPresent(vehicle -> {
+            vehicle.setStatus(status);
+            vehicleRepository.save(vehicle);
+        });
+        vehicleStatusRepository.findByVehicleId(vehicleId).ifPresent(vehicleStatus -> {
+            vehicleStatus.setCurrentStatus(status);
+            updateVehicleStatus(vehicleStatus);
+        });
+    }
+
     private double resolveHourlyPrice(Integer vehicleType) {
         if (vehicleType == null) return 8.0;
         return switch (vehicleType) {
@@ -225,3 +278,4 @@ public class VehicleServiceImpl implements VehicleService {
         };
     }
 }
+

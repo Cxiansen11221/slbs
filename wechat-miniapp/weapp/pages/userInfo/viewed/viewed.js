@@ -137,7 +137,7 @@ Page({
 
   normalizeImage(url) {
     const raw = String(url || '').trim();
-    if (!raw) return '/images/icons/tabbar/home-active.png';
+    if (!raw) return 'https://api.iconify.design/mdi/scooter-electric.svg?color=%23d11a2a&width=640&height=640';
     if (/^https?:\/\//.test(raw) || /^\/images\//.test(raw) || /^data:image\//.test(raw)) return raw;
     const base = this.data.picLocal;
     if (!base) return `/${raw.replace(/^\/+/, '')}`;

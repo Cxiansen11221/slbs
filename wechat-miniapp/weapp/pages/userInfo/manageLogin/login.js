@@ -12,12 +12,12 @@ Page({
       passwordPlaceholder: '\u8bf7\u8f93\u5165\u5bc6\u7801',
       login: '\u767b\u5f55',
       registerUser: '\u6ce8\u518c\u7528\u6237',
-      welcome: '\u6b22\u8fce\u4f7f\u7528\u6613\u79df\u8f66',
+      welcome: '\u6b22\u8fce\u4f7f\u7528\u77f3\u9f99\u9547\u7535\u52a8\u8f66\u79df\u8d41\u5e73\u53f0',
       navTitle: '\u79df\u8f66'
     },
 
     picLocal: app.globalData.picLocal,
-    systemName: '易租车平台',
+    systemName: '\u77f3\u9f99\u9547\u7535\u52a8\u8f66\u79df\u8d41\u5e73\u53f0',
     systemLogo: '',
     loginName: '',
     password: '',
@@ -29,7 +29,7 @@ Page({
   onLoad() {
     wx.setNavigationBarTitle({ title: this.data.i18n.navTitle });
     this.setData({
-      systemName: '易租车平台',
+      systemName: '\u77f3\u9f99\u9547\u7535\u52a8\u8f66\u79df\u8d41\u5e73\u53f0',
       systemLogo: ''
     });
   },
