@@ -1,4 +1,4 @@
-page {
+﻿page {
   background: linear-gradient(180deg, #f2f6ff 0%, #eef3fb 45%, #f5f7fb 100%);
 }
 

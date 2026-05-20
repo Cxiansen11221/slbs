@@ -2,7 +2,7 @@
   <div class="page">
     <el-card class="card">
       <template #header>
-        <div class="title">管理员登录</div>
+        <div class="title">石龙镇电动车租赁系统登录</div>
       </template>
       <el-form 
         :model="form" 
